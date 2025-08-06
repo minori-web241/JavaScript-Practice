@@ -83,3 +83,57 @@ for (const key in obj2) {
 for (const key of Object.keys(obj2)) {
   console.log(key); // a,b
 }
+
+/*
+クラス
+似たようなオブジェクトをたくさん作る設計図
+*/
+
+// 例えばuserをたくさん作りたいとき
+const user1 = {
+  name: 'minori',
+  age: 28,
+  greeting() {},
+};
+
+const user2 = {
+  name: 'naruto',
+  age: 29,
+  greeting() {},
+};
+
+const user3 = {
+  name: 'sasuke',
+  age: 30,
+  greeting() {},
+};
+
+// 上記を関数にまとめるとシンプルにできる = factory関数
+// パスカルケース = 似たようなオブジェクトを作成したいんだなとわかる
+let UserFactory = (name, age) => {
+  return {
+    name,
+    age,
+    greeting() {},
+  };
+};
+
+const user4 = UserFactory('sakura', 28);
+const user5 = UserFactory('ino', 29);
+const user6 = UserFactory('rock', 30);
+
+// 上記の専用の関数がある = コンストラクタ関数（アロー関数はだめ）
+// 呼び出すときに new演算子 をつける
+const UserConstructor = function (name, age) {
+  // this{} // newをつけることで内部的に生成される
+  this.name = name;
+  this.age = age;
+  this.greeting = function () {};
+  // return this // newをつけることで内部的に生成される
+};
+
+const user7 = new UserConstructor('shikamaru', 28);
+const user8 = new UserConstructor('hinata', 28);
+const user9 = new UserConstructor('temari', 28);
+
+console.log(user7);
