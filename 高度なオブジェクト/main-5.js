@@ -320,7 +320,17 @@ curryCalculator.total = 600;
 console.log(curryCalculator.total); // 600になる
 
 /*
-Property Descriptor
+PropertyDescriptor
+厳密には、プロパティはキーと4つの属性から成っている
+
+▼PropertyDescriptor（変更・追加できる）
+
+// デフォルトはtrue
+Key(servingSize):
+configurable: true
+enumerable: true
+value: 60
+writable: true
 */
 const ramenCalculator = {
   servingSize: 60,
@@ -329,14 +339,26 @@ const ramenCalculator = {
 
 console.log(Object.getOwnPropertyDescriptor(ramenCalculator, 'servingSize'));
 
-/*
-厳密には、プロパティはキーと4つの属性から成っている
+// Object.defineProperty = 既存のPropertyDescriptorを変更することができる
+Object.defineProperty(ramenCalculator, 'servingSize', { value: 30 });
+console.log(Object.getOwnPropertyDescriptor(ramenCalculator, 'servingSize'));
 
-▼Property Descriptor（変更したり追加したりできる）
+// writable
+// 変更可否を設定できる falseなら代入が不可能に ただしdefinePropertyで上書きは可能
 
-servingSize:
-configurable: true
-enumerable: true
-value: 60
-writable: true
-*/
+// enumerable
+// ループの可否 falseであればループで無視される Object.keysでも無視 getOwnPropertyNamesでは出力される
+// falseのものはコンソールログで薄く表示される
+
+// configurable
+// 他の属性の変更が不可能（エラー） valueだけは変更できる writableをtrueからfalseに変更もできる
+// delete演算子が使用できない
+
+// プロパティを複数を設定する方法
+Object.defineProperties(ramenCalculator, {
+  servingSize: { value: 30, enumerable: true },
+  children: { value: 2 },
+});
+
+// 全てのPropertyDescriptorを一括で取得する方法
+Object.getOwnPropertyDescriptors(ramenCalculator);
