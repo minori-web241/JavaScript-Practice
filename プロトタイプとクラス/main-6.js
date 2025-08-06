@@ -186,3 +186,20 @@ console.log(user13);
 
 console.log(UserConstructor2.prototype === user12.__proto__); // true
 console.log(user12.__proto__ === user13.__proto__); // true
+
+/*
+内蔵されているコンストラクタ関数
+*/
+// new Object() オブジェクトを作るコンストラクタ関数 ( o = {}; と同じ)
+let o = new Object({ hi: 'hi' });
+Object.prototype.hello = 'Hello'; // prototypeの中にhelloが入る
+o = {}; // ここにもhelloが入る
+console.log(o);
+
+// 配列
+const a = new Array('Apple', 'Banana');
+console.log(a);
+
+// 関数
+const f = new Function('a', 'b', 'return a + b');
+console.log(f(3, 4));
