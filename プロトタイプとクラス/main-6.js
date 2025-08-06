@@ -269,3 +269,17 @@ console.dir(User); // 関数オブジェクト（内部的には区別されて�
 // 呼び出す時は new をつけて呼び出す
 const user = new User();
 console.dir(user1);
+
+/*
+class構文
+getterとsetter
+*/
+class User2 {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  get greeting() {} // get つけるだけ
+  set post(value) {} // set つけるだけ
+}
+console.dir(User2); // prototype内にget greetingとset postが追加されている
