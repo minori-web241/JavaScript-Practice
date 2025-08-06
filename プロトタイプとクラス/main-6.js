@@ -249,5 +249,23 @@ const user15 = new UserConstructor3('shikaku', 29);
 console.log(user14);
 console.log(user15);
 
-// console.log(UserConstructor2.prototype === user12.__proto__); // true
-// console.log(user12.__proto__ === user13.__proto__); // true
+/*
+class構文
+// コンストラクタ関数の上位互換
+*/
+class User {
+  // constructor = コンストラクター関数でいう、メインの処理と同じになる
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  // {}の中身には、省略記法のメソッドしか書けない それ以外はエラー
+  // メソッドを羅列することで、prototype内に関数を入れることができる
+  greeting() {}
+  post() {}
+}
+console.dir(User); // 関数オブジェクト（内部的には区別されている）
+
+// 呼び出す時は new をつけて呼び出す
+const user = new User();
+console.dir(user1);
