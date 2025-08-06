@@ -203,3 +203,23 @@ console.log(a);
 // 関数
 const f = new Function('a', 'b', 'return a + b');
 console.log(f(3, 4));
+
+/*
+hasOwnProperty
+*/
+o = {
+  a: 1,
+};
+console.log(o);
+// aが存在するか確認
+console.log(o.hasOwnProperty('a')); // true
+// in演算子との違い = in演算子はプロトタイプチェーンまで全部見る
+console.log(o.hasOwnProperty('hello')); // false
+console.log('hello' in o); // true
+
+// プロトタイプのメソッドはthisを使用しているため、下記の記述ではオブジェクトを指定していない
+console.log(Object.prototype.hasOwnProperty('a')); // false
+// 上記と全く同じ
+console.log(Object.hasOwn('a')); // false
+// callでオブジェクトを使用できる
+console.log(Object.prototype.hasOwnProperty.call(o, 'a')); // true
