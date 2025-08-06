@@ -137,3 +137,52 @@ const user8 = new UserConstructor('hinata', 28);
 const user9 = new UserConstructor('temari', 28);
 
 console.log(user7);
+
+/*
+共通しているメソッドの関数オブジェクトを簡潔にする場合 上記は同様の関数を各objに共有しておりメモリを余分に占めてしまう
+*/
+// 方法1 関数を別で定義して、オブジェクトに入れる
+const greeting = function () {
+  return `Hi! This is ${this.name}. I am ${this.age} years old.`;
+};
+// 方法2 プロトタイプに入れる
+const userPrototype = {
+  greeting() {
+    return `Hi! This is ${this.name}. I am ${this.age} years old.`;
+  },
+};
+let UserFactory2 = (name, age) => {
+  const user = Object.create(userPrototype);
+  user.name = name;
+  user.age = age;
+  return user;
+};
+
+const user10 = UserFactory2('hanako', 28);
+const user11 = UserFactory2('tarou', 29);
+
+console.log(user10); // prototypeの中にgreetingが入っている
+console.log(user11);
+
+// 方法3 コンストラクタ関数の場合
+const UserConstructor2 = function (name, age) {
+  // this{} // 厳密には下記が生成される
+  // this = Object.create(userPrototype); // thisの初期値
+  this.name = name;
+  this.age = age;
+  // this.greeting = greeting; 不要
+  // return this // newをつけることで内部的に生成される
+};
+
+// 関数(アロー関数を除く)はprototypeと言うプロパティを持っている [[Prototype]]とは全く別物
+UserConstructor2.prototype.greeting = function () {
+  return `Hi! This is ${this.name}. I am ${this.age} years old.`;
+};
+
+const user12 = new UserConstructor2('maru', 28);
+const user13 = new UserConstructor2('sankaku', 29);
+console.log(user12);
+console.log(user13);
+
+console.log(UserConstructor2.prototype === user12.__proto__); // true
+console.log(user12.__proto__ === user13.__proto__); // true
