@@ -283,3 +283,18 @@ class User2 {
   set post(value) {} // set つけるだけ
 }
 console.dir(User2); // prototype内にget greetingとset postが追加されている
+
+/*
+staticキーワード
+*/
+// メソッドがclassのプロトタイププロパティに入るのではなく、classに直接入る
+class User3 {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  static greeting() {} // メソッドの前にstaticを記載
+  static get greeting() {} // getterにも使える
+  set post(value) {}
+}
+console.dir(User3);
