@@ -223,3 +223,31 @@ console.log(Object.prototype.hasOwnProperty('a')); // false
 console.log(Object.hasOwn('a')); // false
 // callでオブジェクトを使用できる
 console.log(Object.prototype.hasOwnProperty.call(o, 'a')); // true
+
+/*
+new.target
+// コンストラクタ関数内で使用するとコンストラクタ関数を返す
+// newオブジェクトのtargetプロパティという意味ではない = new.targetはセット
+// 普通の関数で使用するとundefined
+*/
+const UserConstructor3 = function (name, age) {
+  // this = Object.create(userPrototype);
+  console.log(new.target);
+  this.name = name;
+  this.age = age;
+  // return { hello: 'hello' }; // returnを使った場合は全てオブジェクトで上書きされる
+  // return 'hello'; // 文字列の場合は無視される
+  // return this
+};
+
+UserConstructor3.prototype.greeting = function () {
+  return `Hi! This is ${this.name}. I am ${this.age} years old.`;
+};
+
+const user14 = new UserConstructor3('circle', 28);
+const user15 = new UserConstructor3('shikaku', 29);
+console.log(user14);
+console.log(user15);
+
+// console.log(UserConstructor2.prototype === user12.__proto__); // true
+// console.log(user12.__proto__ === user13.__proto__); // true
