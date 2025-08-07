@@ -298,3 +298,24 @@ class User3 {
   set post(value) {}
 }
 console.dir(User3);
+
+/*
+フィールド
+フィールド＝プロパティのこと
+classの外で this.xxx = … と書く代わりに、クラス本体で宣言できるようになった
+*/
+class User4 {
+  id = 120; // フィールド（this.id）
+  birthday = '1990/8/7'; // フィールド（this.birthday）
+  #age = 0; // プライベートフィールド
+  constructor(name, age) {
+    this.name = name;
+    this.#age = age;
+  }
+  greeting(user) {
+    console.log(user.#age);
+  }
+  get age() {
+    return this.#age;
+  }
+}
