@@ -421,3 +421,34 @@ Object.defineProperty(sushiCalculator, 'total', {
 console.log(Object.getOwnPropertyDescriptor(sushiCalculator, 'total'));
 sushiCalculator.total = 800;
 console.log(sushiCalculator.member);
+
+/*
+Object.preventExtensions
+*/
+const blog = {
+  title: 'How to make',
+  author: 'minori',
+};
+// 拡張できなくする
+Object.preventExtensions(blog);
+blog.hello = 'hello'; // エラーになる
+console.log(blog);
+
+/*
+Object.isExtensible
+*/
+// 拡張できるかできないかを確かめる trueかfalseで返る
+Object.isExtensible(blog);
+
+/*
+Object.seal
+*/
+// preventExtensionsと同様
+// preventExtensionsとの違い：全てのプロパティのconfigurableをfalseにしてしまう
+Object.seal(blog);
+
+/*
+Object.freeze(blog);
+*/
+// writableもfalseにする
+Object.freeze(blog);
