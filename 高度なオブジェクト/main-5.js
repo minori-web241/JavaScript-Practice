@@ -385,10 +385,39 @@ console.log(Object.getOwnPropertyDescriptor(ramenCalculator, 'children'));
 プロパティを複数設定する方法 追加も変更もできる
 */
 Object.defineProperties(ramenCalculator, {
-  servingSize: { value: 30, enumerable: true },
-  children: { value: 2 },
+  // servingSize: { value: 30, enumerable: true },
+  // children: { value: 2 },
 });
 
 // 全てのPropertyDescriptorを一括で取得する方法
 // falseも取得する
 Object.getOwnPropertyDescriptors(ramenCalculator);
+
+/*
+getterとsetterをdefinePropertyを使って定義する
+*/
+const sushiCalculator = {
+  servingSize: 80,
+  member: 6,
+  // get total() {
+  //   return this.servingSize * this.member;
+  // },
+  // set total(newValue) {
+  //   this.member = newValue / this.servingSize;
+  // },
+};
+
+Object.defineProperty(sushiCalculator, 'total', {
+  configurable: true,
+  enumerable: true,
+  get() {
+    return this.servingSize * this.member;
+  },
+  set total(newValue) {
+    this.member = newValue / this.servingSize;
+  },
+  // valueとwritableは共存できない！ ※valueはgetの役割、writableはsetの役割のため
+});
+console.log(Object.getOwnPropertyDescriptor(sushiCalculator, 'total'));
+sushiCalculator.total = 800;
+console.log(sushiCalculator.member);
