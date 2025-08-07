@@ -319,3 +319,30 @@ class User4 {
     return this.#age;
   }
 }
+
+/*
+classの継承
+*/
+// 親クラス = スーパークラス
+class Animal {
+  age = 0;
+  constructor(age) {
+    this.age = age;
+  }
+  eat() {}
+}
+// Animalクラスを継承してBirdクラスをつくっている
+// 子クラス = サブクラス
+// extendsの右側は式ならなんでも入る
+class Bird extends Animal {
+  // 内部的に Bird.__proto__ === Animal // true
+  // Bird.prototype.__proto__ === Animal.prototype
+  name = 'bird';
+  constructor(age, name) {
+    super(age); // 必ずsuperコンストラクターを呼び出さなければいけない
+    this.name = name;
+  }
+  fly() {}
+}
+const bird = new Bird(3, 'pi');
+console.log(bird);
