@@ -346,3 +346,56 @@ class Bird extends Animal {
 }
 const bird = new Bird(3, 'pi');
 console.log(bird);
+
+/*
+super.
+*/
+class Animals {
+  age = 0;
+  constructor(age) {
+    this.age = age;
+  }
+  eat() {
+    console.log('eat from Animals');
+  }
+}
+
+class Rabbit extends Animals {
+  name = 'rabbit';
+  constructor(age, name) {
+    super(age);
+    this.name = name;
+    // super.name = name;と同じ
+  }
+  eat() {
+    super.eat(); // 追加できる
+    console.log('eat from rabbit');
+    // super.がなければeat from rabbitのみsuper.があればeat from Animalsに追加できる
+  }
+  jump() {}
+}
+const rabbit = new Rabbit(3, 'pyon');
+rabbit.eat();
+// console.log(rabbit.eat());
+
+/*
+super.はオブジェクトでも使える
+*/
+
+// super.をgetterとして扱った場合は、メソッドが所属するobjのプロトタイプになる
+const animalObj = {
+  age: 0,
+  eat() {
+    console.log('eat from Animal obj');
+  },
+};
+
+const rabbitObj = {
+  age: 0,
+  eat() {
+    console.log('eat from rabbit obj');
+    super.name = 'pyon'; // this.nameと同じ
+    console.log(super.name); // undefinedになる rabbitObj.__proto__ === super.name
+  },
+};
+rabbitObj.eat();
