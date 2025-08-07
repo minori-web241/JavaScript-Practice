@@ -341,24 +341,54 @@ console.log(Object.getOwnPropertyDescriptor(ramenCalculator, 'servingSize'));
 
 // Object.defineProperty = 既存のPropertyDescriptorを変更することができる
 Object.defineProperty(ramenCalculator, 'servingSize', { value: 30 });
-console.log(Object.getOwnPropertyDescriptor(ramenCalculator, 'servingSize'));
+console.log(Object.getOwnPropertyDescriptor(ramenCalculator, 'servingSize')); // value: 30
 
-// writable
+/*
+writable
+*/
+Object.defineProperty(ramenCalculator, 'servingSize', { writable: false });
+ramenCalculator.servingSize = 100; // これは無効になる
 // 変更可否を設定できる falseなら代入が不可能に ただしdefinePropertyで上書きは可能
+Object.defineProperty(ramenCalculator, 'servingSize', { value: 30 }); //  value: 30
 
-// enumerable
-// ループの可否 falseであればループで無視される Object.keysでも無視 getOwnPropertyNamesでは出力される
+/*
+enumerable
+*/
+// ループの可否 falseであればループで無視される Object.keysでも無視
+// getOwnPropertyNamesでは出力される
 // falseのものはコンソールログで薄く表示される
+Object.defineProperty(ramenCalculator, 'servingSize', { enumerable: false });
+for (const key in ramenCalculator) {
+  console.log(key); // memberのみが返る
+}
 
-// configurable
-// 他の属性の変更が不可能（エラー） valueだけは変更できる writableをtrueからfalseに変更もできる
+/*
+configurable
+*/
+// 他の属性の変更が不可能（エラー）
+// valueだけは変更できる
+// writableをtrueからfalseに変更もできる
 // delete演算子が使用できない
+Object.defineProperty(ramenCalculator, 'servingSize', { configurable: false, value: 900 });
+delete console.log(ramenCalculator.servingSize);
 
-// プロパティを複数を設定する方法
+/*
+プロパティを追加する方法
+*/
+
+// definePropertyで追加した場合は、指定していない属性の値は全部falseになる
+Object.defineProperty(ramenCalculator, 'children', { writable: true });
+// 今回の場合は、// configurable:false,enumerable:false,value:undefined
+console.log(Object.getOwnPropertyDescriptor(ramenCalculator, 'children'));
+
+/*
+プロパティを複数設定する方法 追加も変更もできる
+*/
 Object.defineProperties(ramenCalculator, {
   servingSize: { value: 30, enumerable: true },
   children: { value: 2 },
 });
 
 // 全てのPropertyDescriptorを一括で取得する方法
+// falseも取得する
 Object.getOwnPropertyDescriptors(ramenCalculator);
