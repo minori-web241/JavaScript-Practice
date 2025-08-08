@@ -81,3 +81,132 @@ Reflect.deleteProperty(obj, 'hello');
 // 同じ処理
 console.log(Object.getPrototypeOf(obj));
 console.log(Reflect.getPrototypeOf(obj));
+
+/*
+Symbol
+プリミティブ型のSymbol型
+他のどんな値とも被らないと保証された値
+*/
+// Symbol = 標準ビルトインオブジェクト
+// Symbol()が返す値がsymbol
+let symbol = Symbol();
+console.log(typeof symbol); // symbol型
+console.log(symbol); // symbol
+
+// 説明文的なのを入れることができる
+symbol = Symbol('symbol1');
+// Symbol.for 同じ説明文的なのを取ることができる
+symbol = Symbol.for('symbol2');
+// Symbol.for 同じ説明文的なのを取ることができる
+symbol = Symbol.keyFor(symbol); // symbol2
+
+/*
+オブジェクトのプロパティ
+symbolだけは、文字列に変換されずsymbolとして
+*/
+obj = {
+  0: 0,
+  [symbol]: 'banana',
+};
+obj[symbol] = 'apple';
+
+// ループではsymbolは無視される
+for (const key in obj) {
+  console.log(key);
+}
+
+// symbolだけ取ってくる
+Object.getOwnPropertySymbols(obj);
+
+// 全部とってくる
+Reflect.ownKeys(obj);
+
+/*
+Well-Knownシンボル
+*/
+let items = [0, 1, 2];
+
+arrayLikeObj = {
+  0: 6,
+  1: 7,
+  length: 2,
+};
+
+// concatは配列のようなオブジェクトには動かない（{}のまま展開しない）
+// isArray（配列かオブジェクトか見極める方法）がfalseなら
+let result = items.concat([3, 4, 5], arrayLikeObj);
+
+/*
+Symbol.isConcatSpreadable
+*/
+arrayLikeObj = {
+  0: 6,
+  1: 7,
+  length: 2,
+  [Symbol.isConcatSpreadable]: true,
+};
+// trueの場合、{}も展開して配列にする
+result = items.concat([3, 4, 5], arrayLikeObj);
+console.log(result);
+
+/*
+iterableObject
+*/
+// ① 通常のオブジェクトにプロパティを定義
+iterableObject = {
+  a: 'a',
+  b: 'b',
+
+  // ② Symbol.iterator メソッドを実装
+  [Symbol.iterator]() {
+    let count = 0;
+    return {
+      // ③ next() を持つイテレータを返す
+      next() {
+        count += 1;
+        return count > 3
+          ? { done: true } // 終了シグナル
+          : {
+              value: count,
+              done: false,
+            }; // 値と継続シグナル
+      },
+    };
+  },
+};
+for (const item of iterableObject) {
+  console.log(item); // trueになったら処理終了
+  // 内部の挙動
+  // console.log(iterator.next()); // { value:1, done:false }
+  // console.log(iterator.next()); // { value:2, done:false }
+  // console.log(iterator.next()); // { value:3, done:false }
+  // console.log(iterator.next()); // { done:true }
+}
+let iterator = iterableObject[Symbol.iterator]();
+
+// arrayLikeObj を Iterable にする
+// これでarrayLikeObj が配列のメソッドや、Symbol.iterator を継承
+// 本番では __proto__は非推奨
+arrayLikeObj.__proto__ = Array.prototype;
+
+// スプレッド構文も可能
+console.log(...arrayLikeObj, 8, 9);
+
+// 分割代入も可能
+let [first, second] = arrayLikeObj;
+
+// 配列に変更する
+let realArray = Array.from(arrayLikeObj);
+
+/*
+ジェネレータ関数
+*/
+function* generatorFunc() {
+  yield 2;
+  yield 4;
+  yield 6;
+}
+let generator = generatorFunc(); // 返り値をジェネレータ
+console.log(iterator);
+
+// Iterator.prototype;
