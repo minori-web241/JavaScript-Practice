@@ -171,3 +171,251 @@ arrayLikeObj = {
 // 0の値がin演算子であるかを確認して、あったらその値を1に、なければdelete演算子で削除する〜をlength回繰り返す
 Array.prototype.unshift.call(arrayLikeObj, -1);
 console.log(arrayLikeObj);
+
+/*
+from
+*/
+// オブジェクトを参考に新しい配列を作る
+// prototypeまで見る
+// emptyはundefinedで定義される = 疎の配列ではなく蜜の配列になる
+Array.from(arrayLikeObj);
+
+/*
+splice toSpliced
+配列の任意の位置から要素を削除／追加／置換する
+*/
+items = [0, 1, 2];
+// 引数を3つ指定する
+// items.splice(どこから, 削除する個数,追加したいもの);
+items.splice(1, 2, 3);
+// 引数が一つの場合
+// items.splice(◯番目から全部削除);
+items.splice(0);
+items.splice(0, 0, 1, 2, 3, 4, 5);
+console.log(items); // [1, 2, 3, 4, 5]
+
+// toSpliced
+// spliceとの違いは、itemsを書き換えるのではなく、新たに作成する
+const newItems = items.toSpliced(0, 0, 111);
+console.log(newItems); // [111, 1, 2, 3, 4, 5]
+
+/*
+fill
+書き換える
+*/
+items = [0, 1, 2, 3, 4];
+
+// 引数1つの場合
+// items.fill(全部書き換える);
+items.fill(7);
+
+// 引数2つ
+// items.fill(何で,どこから);
+items.fill(9, 1);
+
+// 引数3つ
+// items.fill(何で,どこから,どこまで);
+items.fill(0, 0, 5);
+
+/*
+copyWithin
+コピーする
+*/
+items = [0, 1, 2, 3, 4];
+
+// 引数3つ
+// items.copyWithin(どこに,どこから,どこまで);
+items.copyWithin(0, 2, 4); //[2, 3, 2, 3, 4] 0,1は上書きされる
+// 元のlengthを超えた分は削除される
+items.copyWithin(3, 2, 4); //[2, 3, 2, 2, 3]
+
+// 引数2つ
+// items.copyWithin(どこに,どこから);
+items.copyWithin(1, 2);
+
+// 引数1つの場合 第二引数は内部的に0になる = 指定の場所から全部コピーする
+// items.fill(どこに);
+items.copyWithin(0);
+
+/*
+reverse toReversed
+順番を反対に並べ替える
+*/
+items = [0, 1, 2, 3, 4];
+items.reverse(); // 逆になる
+console.log(items);
+
+//toReversed
+// reverseとの違いは、itemsを書き換えるのではなく、新たに作成する
+const newItems2 = items.toReversed();
+console.log(newItems2); // [111, 1, 2, 3, 4, 5]
+
+/*
+sort toSorted
+順番に並べ替える
+*/
+// 文字列に変換し、辞書順に並び替える
+items = [10, undefined, 1, 2, , , 3]; //[1, 10, 2, 3, undefined, empty × 2]
+items.sort();
+
+// 数字の順にしたい時
+items.sort((a, b) => {
+  console.log(a, b);
+  return a - b;
+});
+console.log(items); // [1, 2, 3, 10, undefined, empty × 2]
+
+// toSorted
+// sortとの違いは、itemsを書き換えるのではなく、新たに作成する
+const newItems3 = items.toReversed();
+console.log(newItems3);
+
+/*
+slice
+切り取って返り値にする
+*/
+items = [0, 1, 2, 3, 4];
+// 引数1つ
+let result = items.slice(2); // [2, 3, 4]
+// 引数2つ
+result = items.slice(2, 4); // 2-4まで
+
+/*
+concat ※返り値のみ
+配列を繋げて一つの配列として返す
+*/
+items = [0, 1, 2, 3, 4];
+result = items.concat(5, 6);
+
+/*
+join
+配列から文字列にして返す
+*/
+items = ['a', 'b', 'c'];
+result = items.join(); // a,b,c
+result = items.join(''); // abc
+
+/*
+index lastIndexOf includes
+indexを返す
+*/
+items = ['apple', 'banana', 'grape', 'banana'];
+
+result = items.indexOf('banana'); // 1 // bananaは二つあるが最初にヒットしたものを返す
+// 第二引数で何番目から検索
+result = items.indexOf('banana', 2); // 3
+// 何もなければ-1
+result = items.indexOf('hello'); // -1
+
+// lastIndexOf 反対から調べる
+result = items.lastIndexOf('grape'); // 2
+
+// includes 存在するかを返す
+result = items.includes('banana'); // true
+// 下記と同意義
+result = items.indexOf('banana') !== -1; // true
+
+/*
+map
+コールバック関数をとる
+*/
+items = [0, 1, 2];
+
+// 配列に順番に関数を実行していくイメージ
+result = items.map((item) => {
+  return item * 10;
+});
+
+// 引数を2つまで取れる
+result = items.map((item, index, array) => {
+  console.log(item, index, array);
+  return item * 10;
+});
+
+/*
+flat
+入れ子上の配列を一つの配列に戻す
+*/
+items = [0, 1, [2]];
+result = items.flat(); // [0, 1, 2]
+
+// 階層が深い場合は、引数で指定した階層までflatできる
+items = [0, 1, [2, [3, [4]]]];
+result = items.flat(4);
+
+// 疎の配列の場合は、emptyを返さず無視される
+items = [0, , 1, [2]];
+result = items.flat(4); //[0, 1, 2]
+
+/*
+flatMap
+mapしてからflatするのを一つにまとめたもの
+*/
+// 階層は指定できない デフォルトの1
+result = items.flatMap((item) => {
+  return item * 10;
+});
+
+/*
+filter
+フィルタリングできる
+*/
+items = [0, 1, 2, 3, 4, 5, 6];
+// trueなら値を返す、falseなら削除する
+// 疎の配列はfalse
+result = items.filter((item) => {
+  return item > 3; //  [4, 5, 6]
+});
+
+/*
+reduce reduceRight
+*/
+items = [0, 1, 2, 3];
+
+// 4つ引数をとる
+// previousItemは処理後に記載する引数
+result = items.reduce((previousItem, item) => {
+  return previousItem + item;
+}, 0); // エラー回避のため
+
+// reduceRight 上記の処理を右から行う
+
+/*
+find findIndex
+探す
+*/
+// 記載した処理のtrueが返れば処理が終わる
+// 何もなければundefined
+items = ['apple', 'banana', 'grape', 'banana'];
+result = items.find((item) => {
+  return item === 'banana';
+});
+
+// findIndex
+// trueのときのindexが返る
+// 何もなければ-1を返す
+items = ['apple', 'banana', 'grape', 'banana'];
+result = items.findIndex((item) => {
+  return item === 'banana';
+});
+
+// findLast findLastIndex  反対から上記と同様の処理
+
+/*
+every
+全部trueならtrueを返す
+*/
+items = [0, 1, 2];
+// 一度でもfalseになれば即終了
+result = items.every((item) => {
+  return item < 5; // true
+});
+
+/*
+sum
+一つでもtrueならtrue
+*/
+// 一度でもtrueになれば即終了
+result = items.some((item) => {
+  return item < 1; // true
+});
