@@ -375,6 +375,7 @@ result = items.filter((item) => {
 
 /*
 reduce reduceRight
+箱に要素を順番に入れていって、最後に箱の中身を返す
 */
 items = [0, 1, 2, 3];
 
@@ -383,6 +384,18 @@ items = [0, 1, 2, 3];
 result = items.reduce((previousItem, item) => {
   return previousItem + item;
 }, 0); // エラー回避のため
+// ① 初期値（箱の中身）を 0 にセット = 一番最後の引数がpreviousItemに入る
+let previousItem = 0;
+// ② items[0] = 0 を取り出して、callback(0, 0) を実行
+previousItem = previousItem + items[0]; // 0 + 0 = 0
+// ③ items[1] = 1 を取り出して、callback(0, 1)
+previousItem = previousItem + items[1]; // 0 + 1 = 1
+// ④ items[2] = 2 を取り出して、callback(1, 2)
+previousItem = previousItem + items[2]; // 1 + 2 = 3
+// ⑤ items[3] = 3 を取り出して、callback(3, 3)
+previousItem = previousItem + items[3]; // 3 + 3 = 6
+// ⑥ 最終的な previousItem（箱の中身）を返す → 6
+// item = 今処理している要素
 
 // reduceRight 上記の処理を右から行う
 
