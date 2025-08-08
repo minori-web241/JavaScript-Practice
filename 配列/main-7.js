@@ -431,7 +431,7 @@ result = items.every((item) => {
 });
 
 /*
-sum
+some
 一つでもtrueならtrue
 */
 // 一度でもtrueになれば即終了
@@ -440,5 +440,35 @@ result = items.some((item) => {
 });
 
 /*
-
+forEach
+配列を変更しない、かつ値も返さない 常にundefined
+関数を実行するのみ
 */
+items = ['apple', 'banana', 'grape'];
+result = items.forEach((item, index, array) => {
+  console.log(item, index, array);
+});
+
+// for ofとの使い分け
+// forEach
+// 配列のすべての要素に必ず何か処理を適用したいとき
+// インデックスや元配列もコールバックで参照したいとき
+
+// for of
+// 途中でループを抜けたい／飛ばしたいとき
+// シンプルに「要素だけ」を順に処理したいとき
+
+/*
+at
+indexの指定に-を使用可能
+*/
+items = ['apple', 'banana', 'grape'];
+console.log(items.at(-1)); // grape
+
+/*
+with
+atの機能+元の配列の書き換えではなく返り値で書き換えた配列を生成
+*/
+items = ['apple', 'banana', 'grape'];
+const newItems4 = items.with(-1, 'orange');
+console.log(newItems4); // ['apple', 'banana', 'orange']
