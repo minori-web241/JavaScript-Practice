@@ -262,6 +262,12 @@ items.sort();
 items.sort((a, b) => {
   console.log(a, b);
   return a - b;
+  // 比較関数
+  // a, b: 比較対象の配列要素
+  // return < 0 → a を前に置く
+  // return > 0 → b を前に置く
+  // return 0   → 順序を変更しない
+  // b - aは降順ソート
 });
 console.log(items); // [1, 2, 3, 10, undefined, empty × 2]
 
@@ -419,3 +425,7 @@ sum
 result = items.some((item) => {
   return item < 1; // true
 });
+
+/*
+
+*/
