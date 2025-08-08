@@ -112,3 +112,62 @@ const sayMinori = ([name, age, ...etc]) => {
   console.log(name, age, ...etc); // minori 28 Tokyo jazz
 };
 sayMinori(minori);
+
+/*
+配列を変更するメソッド
+Array.prototype
+*/
+// .push
+let items = [0, 1, 2];
+items.push(3, 4); // [0, 1, 2, 3, 4]
+console.log(items.push(5, 6)); // lengthを返す
+
+// .pop
+items.pop(); //   [0, 1, 2, 3, 4, 5] 6を取り除く
+console.log(items.pop()); // 5 取り除いた値
+
+// .unshift = お尻に追加する
+items.unshift(-2, -1); // [-2, -1, 0, 1, 2, 3, 4] // 戻り値はlength
+console.log(items);
+
+// .shift
+items.shift(); // -2を取り除く
+console.log(items);
+
+/*
+配列のようなオブジェクトには使用できるのか
+*/
+
+/*
+push popの場合
+*/
+arrayLikeObj = {
+  0: 0,
+  // 1: 1,
+  2: 2,
+  3: 3,
+  // length: 3,
+  length: 4, // lengthの指定がなければ自動的に0になる
+};
+
+// .push = lengthプロパティと同じプロパティに値を代入して、length+1する
+Array.prototype.push.call(arrayLikeObj, 3);
+
+// .pop = length-1のプロパティを削除している
+// 内部的にはdeleteと同じだが、popはlengthの値調整、deleteはlengthが不変
+Array.prototype.pop.call(arrayLikeObj);
+
+/*
+unshift shiftの場合
+*/
+arrayLikeObj = {
+  0: 0,
+  1: 1,
+  2: 2,
+  3: 3,
+
+  length: 4,
+};
+// 0の値がin演算子であるかを確認して、あったらその値を1に、なければdelete演算子で削除する〜をlength回繰り返す
+Array.prototype.unshift.call(arrayLikeObj, -1);
+console.log(arrayLikeObj);
