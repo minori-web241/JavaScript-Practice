@@ -27,6 +27,8 @@ lengthプロパティ
 fruits = ['apple', 'banana'];
 fruits[2] = 'grape'; // ['apple', 'banana', 'grape']
 fruits[10] = 'orange'; // [apple', 'banana', 'grape', empty × 7, 'orange']
+
+// deleteを使用してもlengthは変化しない
 delete fruits[10]; // ['apple', 'banana', 'grape', empty × 8]
 fruits['hello'] = 'hello'; // ['apple', 'banana', 'grape', empty × 8, hello: 'hello']
 fruits.length = 100; // ['apple', 'banana', 'grape', empty × 97, hello: 'hello']
