@@ -79,3 +79,34 @@ sum(1, 2, 3, 4); // [1, 2, 3, 4]
 // ...とすることで、呼び出し式の中でも展開できる
 let nums = [1, 2, 3, 4];
 sum(...nums, 5); // [1, 2, 3, 4,5]
+
+/*
+分割代入
+*/
+let minori = ['minori', 28];
+let [name, age] = minori; // minori 20
+
+// 指定のもののみ取得するには
+minori = ['minori', 28, 'woman'];
+[, , gender] = minori; // woman
+
+// 配列の中に配列や、オブジェクトも入れられる
+minori = ['minori', 28, 'woman', ['jazz', 'Kyoto'], { first: 'minori', last: 'ri' }];
+[, , gender, [music, travel], { first: firstName, last }] = minori;
+console.log(gender, music, travel, firstName, last); // woman jazz Kyoto minori ri
+
+// デフォルトの値を指定
+minori = ['minori', 28, ,];
+[, , email = 'test@com'] = minori;
+console.log(email); // test@com
+
+// ...etc 残り全部
+minori = ['minori', 28, 'Tokyo', 'jazz'];
+[name, age, ...etc] = minori; // minori 28 Tokyo jazz
+console.log(name, age, ...etc);
+
+// 関数のパラメーターでも同様のことが可能
+const sayMinori = ([name, age, ...etc]) => {
+  console.log(name, age, ...etc); // minori 28 Tokyo jazz
+};
+sayMinori(minori);
