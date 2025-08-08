@@ -472,3 +472,20 @@ atの機能+元の配列の書き換えではなく返り値で書き換えた�
 items = ['apple', 'banana', 'grape'];
 const newItems4 = items.with(-1, 'orange');
 console.log(newItems4); // ['apple', 'banana', 'orange']
+
+/*
+Object.groupBy
+*/
+items = [0, 1, 2, 3, 4, 5];
+// 第一引数で指定した配列を第二引数で指定した関数をもとにグループ分けする
+// 返り値でオブジェクトを返す
+// 関数は配列分だけ実行される
+// returnはキーになる
+const obj = Object.groupBy(items, (item) => {
+  if (item % 2 === 0) {
+    return 'even';
+  }
+  return 'odd';
+});
+// even:(3) [0, 2, 4]
+// odd:(3) [1, 3, 5]
