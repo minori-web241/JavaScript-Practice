@@ -62,3 +62,20 @@ fruits = Array('apple', 'banana'); // new Array 上記と同様の挙動
 fruits = Array.of(5); // new Array(5)とは違い、配列を作る 0:5,length:1
 
 console.log(fruits);
+
+/*
+スプレッド構文
+*/
+fruits = new Array('apple', 'banana', 'grape');
+const newFruits = [...fruits, 'orange'];
+console.log(newFruits, fruits);
+
+// レストパラメーター
+let sum = (...nums) => {
+  console.log(nums);
+};
+sum(1, 2, 3, 4); // [1, 2, 3, 4]
+
+// ...とすることで、呼び出し式の中でも展開できる
+let nums = [1, 2, 3, 4];
+sum(...nums, 5); // [1, 2, 3, 4,5]
