@@ -48,3 +48,36 @@ let obj = {
 // handlerに{}何も指定しなければ、通常のオブジェクトのような扱いになる
 let proxy = new Proxy(obj, {});
 console.log(proxy);
+
+/*
+Reflect API
+Reflectには他の代替方法が存在する proxyの中、または必要に応じて使用する
+*/
+arrayLikeObj = new Proxy(arrayLikeObj, {
+  // get トラップ
+  get(target, prop) {
+    if (prop in target) {
+      return Reflect, get(target, prop);
+      // return target[prop];と全く同じ処理
+    }
+    return 'default';
+  },
+  // set トラップ
+  set(target, prop, value) {
+    target[prop] = value;
+    const index = Number(prop);
+    if (index >= target.length) {
+      target.length = index + 1;
+    }
+    return Reflect.set(target, prop, value);
+    // target[prop] = value;と全く同じ処理
+  },
+});
+
+// 同じ処理
+delete obj.hello;
+Reflect.deleteProperty(obj, 'hello');
+
+// 同じ処理
+console.log(Object.getPrototypeOf(obj));
+console.log(Reflect.getPrototypeOf(obj));
