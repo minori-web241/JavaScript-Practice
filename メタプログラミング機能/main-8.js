@@ -210,3 +210,18 @@ let generator = generatorFunc(); // 返り値をジェネレータ
 console.log(iterator);
 
 // Iterator.prototype;
+
+/*
+タグ付きテンプレート
+*/
+// テンプレートリテラル ``
+const myTag = (strings, name, age) => {
+  // 第1引数 strings はリテラル部分の配列
+  // 内部的に strings = ["hello! I am ", " and ", " years old"]
+  console.log(strings, name, age);
+  return `${strings[0]}${age}${strings[2]}${strings[1]}${name}`;
+};
+let name = 'minori';
+let age = 28;
+console.log(myTag`hello! I am ${name} and ${age} years old`);
+// hello! I am 28 years old and minori
