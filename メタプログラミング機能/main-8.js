@@ -57,7 +57,7 @@ arrayLikeObj = new Proxy(arrayLikeObj, {
   // get トラップ
   get(target, prop) {
     if (prop in target) {
-      return Reflect, get(target, prop);
+      return Reflect.get(target, prop);
       // return target[prop];と全く同じ処理
     }
     return 'default';
