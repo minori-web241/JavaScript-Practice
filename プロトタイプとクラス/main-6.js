@@ -192,9 +192,6 @@ const UserConstructor3 = function (name, age) {
   console.log(new.target);
   this.name = name;
   this.age = age;
-  // return { hello: 'hello' }; // returnを使った場合は全てオブジェクトで上書きされる
-  // return 'hello'; // 文字列の場合は無視される
-  // return this
 };
 
 /*
@@ -203,8 +200,11 @@ class構文
 class内はデフォルトでstrictモード
 */
 class User {
-  // constructor = コンストラクター関数でいう、メインの処理と同じになる
+  // constructorメソッド = コンストラクター関数でいう、メインの処理と同じになる
+  // インスタンスが使うデータを準備する場所
+  // newで呼び出されて真っ先に実行される
   constructor(name, age) {
+    // this = Object.create(Animal.prototype)
     this.name = name;
     this.age = age;
   }
@@ -228,7 +228,7 @@ class User2 {
   }
   get greeting() {} // get つけるだけ
   set post(value) {} // set つけるだけ
-  // 内部的に下記のような処理を簡単にできる
+  // 内部的に下記のようなコンストラクタ関数の処理を簡単にできる
   // Object.defineProperty(変数名.prototype,''){ get(),set()}
 }
 console.dir(User2); // prototype内にget greetingとset postが追加されている
@@ -237,13 +237,14 @@ console.dir(User2); // prototype内にget greetingとset postが追加されて�
 staticキーワード
 */
 // メソッドがclassのプロトタイププロパティに入るのではなく、classに直接入る
+// メソッドの前にstaticを記載する
 class User3 {
   constructor(name, age) {
     this.name = name;
     this.age = age;
   }
-  static greeting() {} // メソッドの前にstaticを記載
-  // 下記と同じような処理
+  static greeting() {}
+  // 下記と同じような処理になる
   // User.greeting = function () {}
   static get greeting() {} // getterにも使える
   set post(value) {}
@@ -251,27 +252,45 @@ class User3 {
 
 /*
 フィールド
-フィールド＝プロパティのこと
+＝プロパティのこと
 classの外で this.xxx = … と書く代わりに、クラス本体で宣言できるようになった
 */
 class User4 {
-  id = 120; // フィールド（this.id）
-  birthday = '1990/8/7'; // フィールド（this.birthday）
-  #age = 0; // プライベートフィールド
+  // 内部的にはObject.defineProperty(this, 'name', { value : name})で追加されている
+  // Publicフィールド（クラス定義時に初期値を設定できる）
+  name = 'default'; // フィールド（this.name）
+  age = 0; // フィールド（this.age）
+
+  // {}内に処理を記載することも可能
+  static {}
+
+  // Privateフィールド
+  #password = 0;
   constructor(name, age) {
     this.name = name;
-    this.#age = age;
+    this.#password = 0; // classの中からしかアクセスができない
   }
   greeting(user) {
-    console.log(user.#age);
+    console.log(user.#password);
   }
-  get age() {
-    return this.#age;
+  get password() {
+    return this.#password;
   }
 }
 
+// Privateフィールド
+// console.log(User4.#password); // エラーになる
+
+const user14 = new User4('minori', 28);
+const user15 = new User4('tarou', 30);
+// console.dir(User4);
+console.log(user14);
+console.log(user15);
+
 /*
-classの継承
+classの継承 - extends
+親のフィールドやメソッドをそのまま子で使えるようにする
+必要なら子クラス側で追加・上書きもできる。
 */
 // 親クラス = スーパークラス
 class Animal {
@@ -279,23 +298,28 @@ class Animal {
   constructor(age) {
     this.age = age;
   }
-  eat() {}
+  static eat() {}
 }
-// Animalクラスを継承してBirdクラスをつくっている
+
 // 子クラス = サブクラス
+// extends 親クラスを継承して子をつくっている
 // extendsの右側は式ならなんでも入る
 class Bird extends Animal {
-  // 内部的に Bird.__proto__ === Animal // true
-  // Bird.prototype.__proto__ === Animal.prototype
+  // extendsが内部的にやっていること
+  // ①Bird.__proto__ === Animal // true
+  // → 静的メソッド（Animal.staticMethod）もBirdで使えるようになる
+  // ②Bird.prototype.__proto__ === Animal.prototype // true
+  // → Animal.prototype にあるメソッド（eat()）を Bird のインスタンスから使えるようになる。
   name = 'bird';
   constructor(age, name) {
-    super(age); // 必ずsuperコンストラクターを呼び出さなければいけない
+    // superは親クラスのコンストラクタ関数を指す
+    // 必ずsuperコンストラクターを呼び出さなければいけない
+    super(age);
     this.name = name;
   }
   fly() {}
 }
 const bird = new Bird(3, 'pi');
-console.log(bird);
 
 /*
 super.
