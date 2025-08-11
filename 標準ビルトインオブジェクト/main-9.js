@@ -92,4 +92,14 @@ Math.max(4, -5, 2, 32, 1); // 32
 
 // Math.min
 // 一番小さい数字
-Math.max(4, -5, 2, 32, 1); // -5
+Math.min(4, -5, 2, 32, 1); // -5
+
+/*
+BigInt型
+Number.MAX_SAFE_INTEGER → 9,007,199,254,740,991
+BigIntはこの制限を超える整数も正確に扱える
+*/
+let bigInt = 1234567890n; // bigint
+bigInt = BigInt(123456789); //bigint
+bigInt = BigInt('123456789'); // bigint
+console.log(typeof bigInt); // bigint
