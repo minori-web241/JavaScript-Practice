@@ -385,7 +385,6 @@ console.log(rabbitObj);
 /*
 コンポジション 継承より簡潔でわかりやすい
 必要な機能を組み合わせる
-？？？？？？引き継ぎたいクラスのインスタンスを書き込む？？？？？？？
 */
 class Dog {
   name = 'dog';
@@ -411,6 +410,24 @@ console.log(dog.animal.age); // 5
 dog.eat();
 // Animalのstaticメソッドも呼び出せる
 Dog.jump();
+
+/*
+instanceof と isPrototypeOf
+*/
+class Car {}
+const car = new Car();
+class Taxi extends Car {}
+const taxi = new Taxi();
+const prius = Object.create(Car.prototype);
+
+console.log(car instanceof Car); // true
+console.log(taxi instanceof Car); // true
+
+// 下記は全て同義
+console.log(prius instanceof Car); // true
+// プリウスのprototypeはCarのprototypeか
+console.log(Car.prototype.isPrototypeOf); // true
+console.log(Object.prototype.isPrototypeOf.call(Car.prototype, prius)); // true
 
 /*
 内蔵されているコンストラクタ関数
