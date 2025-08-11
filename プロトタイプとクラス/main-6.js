@@ -283,9 +283,6 @@ class User4 {
 
 const user14 = new User4('minori', 28);
 const user15 = new User4('tarou', 30);
-// console.dir(User4);
-console.log(user14);
-console.log(user15);
 
 /*
 classの継承 - extends
@@ -323,6 +320,9 @@ const bird = new Bird(3, 'pi');
 
 /*
 super.
+親のプロトタイプにあるメソッドやプロパティへアクセスするためのキーワード
+省略記法のメソッド内であればどこでも使用可能
+super.はsetterのように扱うと、this.と置き換えることができる
 */
 class Animals {
   age = 0;
@@ -332,30 +332,33 @@ class Animals {
   eat() {
     console.log('eat from Animals');
   }
+
+  static foo() {
+    console.log('foo');
+  }
 }
 
 class Rabbit extends Animals {
   name = 'rabbit';
   constructor(age, name) {
     super(age);
-    this.name = name;
-    // super.name = name;と同じ
+    this.name = name; // super.name = name;と同じ
   }
   eat() {
-    super.eat(); // 追加できる
+    super.eat(); // 親のメソッドを上書きせず、追加できる
     console.log('eat from rabbit');
-    // super.がなければeat from rabbitのみsuper.があればeat from Animalsに追加できる
+    // ①setterのように扱った場合
+    super.name = 'minori-dayo'; // ②this.nameと同じ
   }
   jump() {}
 }
 const rabbit = new Rabbit(3, 'pyon');
 rabbit.eat();
-// console.log(rabbit.eat());
+console.log(rabbit);
 
 /*
 super.はオブジェクトでも使える
 */
-
 // super.をgetterとして扱った場合は、メソッドが所属するobjのプロトタイプになる
 const animalObj = {
   age: 0,
@@ -365,14 +368,49 @@ const animalObj = {
 };
 
 const rabbitObj = {
-  age: 0,
+  age: 1,
   eat() {
     console.log('eat from rabbit obj');
-    super.name = 'pyon'; // this.nameと同じ
-    console.log(super.name); // undefinedになる rabbitObj.__proto__ === super.name
+    // ①setterのように扱った場合
+    super.name = 'pyon'; // ②this.nameと同じ
+
+    // ③getterのように扱った場合 (= super.nameを取得しようとすると)
+    // rabbitObj.__proto__ === super.name
+    console.log(super.name); // undefinedになる
   },
 };
 rabbitObj.eat();
+console.log(rabbitObj);
+
+/*
+コンポジション 継承より簡潔でわかりやすい
+必要な機能を組み合わせる
+？？？？？？引き継ぎたいクラスのインスタンスを書き込む？？？？？？？
+*/
+class Dog {
+  name = 'dog';
+  constructor(age, name) {
+    // プロパティを作り、インスタンスを入れ込む
+    this.animal = new Animals(age); // ageプロパティやメソッドが入っている
+    this.name = name;
+  }
+  eat() {
+    this.animal.eat();
+    console.log('eat from dog');
+  }
+  static jump() {
+    Animal.foo;
+    console.log('jump');
+  }
+}
+const dog = new Dog(5, 'pyon');
+
+console.log(dog.animal.age); // 5
+
+// this.animal.eat();で 'eat from Animals' と 'eat from dog'が呼び出せる
+dog.eat();
+// Animalのstaticメソッドも呼び出せる
+Dog.jump();
 
 /*
 内蔵されているコンストラクタ関数
