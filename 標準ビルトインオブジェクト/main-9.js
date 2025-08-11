@@ -147,3 +147,35 @@ Date.now(); // 1754901234567（現在時刻のミリ秒）
 // Date.parse()
 // 日付文字列 → ミリ秒（1970/1/1 UTCからの経過時間）に変換する
 Date.parse('2025-08-11T00:00:00Z'); // 1754870400000（ミリ秒）
+
+/*
+String.prototype
+*/
+let apple = 'I like apples';
+
+// 開始位置 > 終了位置の場合は空文字列が返る
+result = apple.slice(6, 1); // ""
+
+// 前後の空白文字を除去（元の文字列は変わらない）
+result = apple.trim(); // "I like apples"
+
+// 引数が ''（空文字）だと1文字ずつ配列化
+result = apple.split(''); // ["I", " ", "l", "i", "k", "e", " ", "a", "p", "p", "l", "e", "s"]
+
+// 最初に一致した 'like' を 'love' に置き換える
+result = apple.replace('like', 'love'); // "I love apples"
+
+// 文字列が 'I love' で始まっているかを判定
+result = apple.startsWith('I love'); // false
+
+// 文字列が 'apple' で終わっているかを判定（末尾は 'apples'）
+result = apple.endsWith('apple'); // false
+
+// 'apples' が最初に現れる位置（0スタート）
+result = apple.indexOf('apples'); // 7
+
+// 開始位置に負の値を渡すと 0 として扱われる（末尾からのオフセットではない）
+result = apple.indexOf('l', -3); // 10
+
+// 見つからない場合は -1
+result = apple.indexOf('banana'); // -1
