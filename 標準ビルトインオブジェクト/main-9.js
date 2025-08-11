@@ -103,3 +103,47 @@ let bigInt = 1234567890n; // bigint
 bigInt = BigInt(123456789); //bigint
 bigInt = BigInt('123456789'); // bigint
 console.log(typeof bigInt); // bigint
+
+/*
+Dateオブジェクト
+コンストラクター関数になる
+*/
+// 内部的に時間を所持している
+let date = new Date();
+console.dir(date);
+
+// 1970年1月1日 00:00:00 UTC（協定世界時）からの経過時間を、ミリ秒単位で返すメソッド
+date.getTime();
+
+// ブラウザならOS設定のタイムゾーンで決定される
+date.getFullYear(); // 2025
+date.getMonth(); // 7 (0スタート)
+date.getDate(); // 11
+date.getHours(); // 16
+date.getMinutes(); // 46
+
+// 文字列で記載
+// 内部は省略もできる
+new Date('2025-08-11T16:54:20+09:00'); // Mon Aug 11 2025 16:54:20 GMT+0900 (日本標準時)
+
+// 数値型はタイムゾーンの指定はできない
+new Date(2025, 08, 11, 3, 30); // Thu Sep 11 2025 03:30:00 GMT+0900 (日本標準時)
+
+// date.set〜で変更できる
+date.setDate(date.getDate() + 1); // 明日を指定する
+
+// 日付を算術演算子
+new Date() - date; // -86396292
+new Date() > date; // -true
+new Date() < date; // -false
+
+/*
+Dateのstaticメソッド
+*/
+// Date.now()
+// 時間を指定してタイムスタンプをとる
+Date.now(); // 1754901234567（現在時刻のミリ秒）
+
+// Date.parse()
+// 日付文字列 → ミリ秒（1970/1/1 UTCからの経過時間）に変換する
+Date.parse('2025-08-11T00:00:00Z'); // 1754870400000（ミリ秒）
