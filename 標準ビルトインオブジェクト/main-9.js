@@ -57,3 +57,39 @@ isFinite
 Number.isFinite(NaN); // false
 Number.isFinite(Infinity); // false
 Number.isFinite(-Infinity); // false
+
+/*
+Math オブジェクト
+*/
+// Math.trunc
+// 小数点を消す
+Math.trunc(3.6); // 3
+Math.trunc(-3.6); // -3
+
+// Math.floor
+// 負に合わせる
+Math.floor(3.6); // 3
+Math.floor(-3.6); // 4
+
+// Math.ceil
+// 正に合わせる
+Math.ceil(3.6); // 4
+Math.ceil(-3.6); // -3
+
+// Math.round
+// 四捨五入
+Math.round(3.6); // 4
+Math.round(3.5); // 4 正では大きい方に
+Math.round(-3.6); // -4 負では小さい方に
+
+// Math.random
+// 0-1を含まない数をランダムに出力する
+Math.random();
+
+// Math.max
+// 一番大きい数字
+Math.max(4, -5, 2, 32, 1); // 32
+
+// Math.min
+// 一番小さい数字
+Math.max(4, -5, 2, 32, 1); // -5
