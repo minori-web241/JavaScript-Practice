@@ -361,3 +361,71 @@ result = new Intl.NumberFormat('ja-JP', {
   style: 'currency',
   currency: 'JPY',
 }).format(10000); // ￥10,000
+
+/*
+Map
+キーとバリューペアの保存に特化したオブジェクト
+prototype無い
+キーはどんな型でもok
+*/
+
+// 配列の中に配列を入れる（厳密にはイテラブルオブジェクト）
+let map = new Map([
+  ['name', 'minori'],
+  ['age', 28],
+  ['gender', 'woman'],
+]);
+map.set('city', 'Tokyo');
+result = map.get('city'); // Tokyo
+
+// setの返り値はmapそのもの
+map.set(1, 1);
+map.set('1', 'one');
+result = map.get(1); // 1
+result = map.get(1); // one
+
+map.set(true, 'true');
+result = map.get(true); // true
+
+let jack = { name: 'jack' };
+map.set(jack, 'jack');
+result = map.get(jack); // jack
+
+// has演算子 （in演算子のような)
+result = map.has('city'); // true
+
+// deleteメソッド
+result = map.delete('gender'); // 削除したら返り値でtrueが返る
+
+// clear 一気に全部削除
+// result = map.clear('gender'); // undefinedが返る
+
+// size プロパティの個数を返す
+result = map.size; // 7
+
+// ループ Symbol.iteratorを持っている
+// map.keysなども使える
+for (const item of map) {
+}
+
+// map.forEach
+map.forEach((value, key, map) => {
+  console.log(value, key, map);
+});
+
+// オブジェクトをmapに変換
+// Object.entries() で「普通のオブジェクト」を（[キー, 値] の配列） に変換している
+let person = {
+  name: 'minori',
+  age: 28,
+};
+map = new Map(Object.entries(person));
+// Map(2) { "name" => "minori", "age" => 28 }
+
+// mapをオブジェクトに変換
+// Object.fromEntries
+person = Object.fromEntries([
+  ['name', 'minori'],
+  ['age', 28],
+]);
+person = Object.fromEntries(map);
