@@ -325,3 +325,22 @@ try {
   console.log(error.name); // エラーの種類（Error, ReferenceErrorなど）
   console.log(error.stack); // error.stackはデバッグ目的で使用（関数呼び出し履歴）
 }
+
+/*
+メモリ操作
+*/
+// ArrayBuffer
+// メモリの領域を確保する
+// バイトで指定
+// 中身は 0 と 1 のビットの並び（直接は読めない）
+// 実際に値を読み書きするには ビュー（TypedArray や DataView） が必要
+let buffer = new ArrayBuffer(16); // 1と0の集合体を128ビット分確保した
+
+// TypedArray
+let array = new Uint8Array(buffer);
+array[0] = 120; // 01111000
+// MDN https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
+
+// DataView
+let DataView = new DataView(buffer);
+DataView.setUint16(0, 256); // 先頭2バイトに256を書き込む
