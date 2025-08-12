@@ -342,5 +342,22 @@ array[0] = 120; // 01111000
 // MDN https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
 
 // DataView
-let DataView = new DataView(buffer);
-DataView.setUint16(0, 256); // 先頭2バイトに256を書き込む
+let view = new DataView(buffer);
+view.setUint16(0, 256); // 先頭2バイトに256を書き込む
+
+/*
+Intl(国際化)オブジェクト
+フォーマットをする
+*/
+// 第一引数に色々入れられる
+result = new Intl.DateTimeFormat('ja-JP', {
+  era: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(new Date()); // 西暦2025年8月12日
+
+result = new Intl.NumberFormat('ja-JP', {
+  style: 'currency',
+  currency: 'JPY',
+}).format(10000); // ￥10,000
