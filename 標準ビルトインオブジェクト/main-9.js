@@ -309,3 +309,19 @@ result = mail.split('@', '*');
 
 console.dir(result);
 console.dir(regexp);
+
+/*
+Errorオブジェクト
+*/
+// 発生したエラーは error 変数として catch ブロックに渡される
+try {
+  chocolate;
+  // 存在しない変数にアクセスすると ReferenceError が発生する
+  // 内部的に throw new ReferenceError('error message!', cause{ hello: 'hello'});
+  // 第一引数に文字列、第二引数に{}など入れられる
+} catch (error) {
+  // 下記のErrorオブジェクトを持つ
+  console.log(error.message); // error message!
+  console.log(error.name); // エラーの種類（Error, ReferenceErrorなど）
+  console.log(error.stack); // error.stackはデバッグ目的で使用（関数呼び出し履歴）
+}
