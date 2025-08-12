@@ -455,3 +455,49 @@ const newSet = set.intersection(set2); // {4, 5, 6}
 console.log(newSet);
 // 他、新しく追加されたメソッド
 // MDN https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Set#set_%E3%81%AE%E5%90%88%E6%88%90
+
+/*
+WeakMap
+*/
+// ガベージコレクションが働く例
+let minori = { name: 'minori' };
+minori = null; // null
+
+// ガベージコレクションが働かない例
+minori = { name: 'minori' };
+map = new Map();
+// Map に「その参照」を登録
+map.set('user', minori);
+// 変数 minori から参照を切る
+minori = null;
+// Map が持つ参照を通じてアクセスできる
+console.log(map.get('user'));
+
+// ガベージコレクションが働かない例
+// ループでアクセスできる
+minori = { name: 'minori' };
+map = new Map();
+map.set(minori, 'Tokyo');
+minori = null;
+console.log(map.get('Tokyo'));
+for (const item of map) {
+  console.log(item);
+}
+
+// WeakMap
+// ループ処理以外で到達できないとき
+// delete
+minori = { name: 'minori' };
+let john = { name: 'john' };
+let mary = { name: 'mary' };
+let symbol = Symbol();
+let weakMap = new WeakMap([
+  [minori, 'Tokyo'],
+  [john, 'Osaka'],
+  [symbol, 'Nagoya'],
+]);
+weakMap.set(mary, 'Fukuoka');
+minori = null; //  [minori, 'Tokyo']を削除する
+
+// WeakSet
+// オブジェクトの存在チェックや一意性だけ管理したい場合
