@@ -429,3 +429,29 @@ person = Object.fromEntries([
   ['age', 28],
 ]);
 person = Object.fromEntries(map);
+
+/*
+Setオブジェクト
+同じ値を複数持つことのできない値の集まり
+*/
+// イテラブルオブジェクトならなんでもok
+let set = new Set(['hello', 3, { name: 'minori' }, ['music']]);
+
+// set.add pushのような
+set.add({ name: 'jack' }).add(true);
+
+// すでに持っていれば、無視される
+set.add('hello');
+
+// set.has, set.delete, set.size, set.clear など使える
+set.has();
+
+// for of, forEachも使える
+
+// 重複しているもののみ、取り出す
+set = new Set([1, 2, 3, 4, 5, 6]);
+let set2 = new Set([4, 5, 6, 7, 8, 9]);
+const newSet = set.intersection(set2); // {4, 5, 6}
+console.log(newSet);
+// 他、新しく追加されたメソッド
+// MDN https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Set#set_%E3%81%AE%E5%90%88%E6%88%90
