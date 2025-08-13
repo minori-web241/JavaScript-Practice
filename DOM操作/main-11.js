@@ -196,3 +196,35 @@ p.remove(); // 子孫要素も全て
 
 // 置き換える
 p2.replaceWith(document.createElement('p'), '<p>banana</p>');
+
+/*
+node操作
+*/
+document.body.innerHTML = '<h1>Hello!</h1><div>I am Tom<p>hi</p>yo</div>';
+
+// nodeType
+// 数字で返す
+result = document.nodeType; // 9
+
+// nodeName
+// タグの名前や固定名を返す
+result = document.body.nodeName; // BODY
+result = document.nodeName; // #document
+
+// tagName elementインターフェースのみ
+result = document.body.tagName; // #document
+
+// nodeValue - getter
+result = document.querySelector('div').childNodes[0].nodeValue; // I am Tom
+// nodeValue - setter
+document.querySelector('div').childNodes[0].nodeValue = 'I am Minori'; // I am Minori
+// elementノードでは
+// コメント、テキストはそのまま返すが、それ以外はほぼnull
+result = document.querySelector('div').childNodes[1].nodeValue; // null
+
+// data
+// コメント・テキストインターフェースに存在する
+// data - getter
+result = document.querySelector('div').childNodes[2].data; // yo
+// data - setter
+document.querySelector('div').childNodes[2].data = 'cake'; // cake
