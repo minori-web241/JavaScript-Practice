@@ -263,4 +263,44 @@ document.body.removeAttribute('type');
 // dataset - data-を除く
 result = document.body.dataset;
 
-console.dir(result);
+/*
+css操作
+*/
+document.body.innerHTML = '<p>hello<p/>';
+result = document.styleSheets;
+// CSSOMの操作 - ほぼ使用しない
+document.styleSheets[0].cssRules[0].style.color = 'red';
+
+document.body.innerHTML = '<p class="text-green bg-yellow">hello<p/>';
+result = document.querySelector('p').className;
+
+// classList - 使うことが多い
+result = document.querySelector('p').classList;
+// remove
+result = document.querySelector('p').classList.remove('bg-blue');
+// add
+result = document.querySelector('p').classList.add('bg-blue');
+// toggle
+result = document.querySelector('p').classList.toggle('bg-blue');
+// contains - 存在チェック
+result = document.querySelector('p').classList.contains('bg-blue');
+
+/*
+style - style属性とのみ連携する
+CSSStyleDeclaration
+*/
+document.body.innerHTML = '<p style="color: pink;" class="text-green bg-yellow">hello<p/>';
+result = document.querySelector('p').style;
+document.querySelector('p').style.color = 'orange';
+document.querySelector('p').style.backgroundColor = 'purple';
+document.querySelector('p').style.width = '50px';
+document.querySelector('p').style.display = 'none';
+document.querySelector('p').style.display = ''; // 空文字にすると取り消せる
+document.querySelector('p').style.hidden = true;
+
+result = document.querySelector('p').style.cssText; // style属性のテキスト
+
+// getComputedStyle - 要素に適応されている全てのスタイルを見る
+// 変更はできない
+result = getComputedStyle(document.querySelector('p'));
+// console.dir(result);
