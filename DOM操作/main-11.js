@@ -52,4 +52,64 @@ result = document.head.nextElementSibling; // <body>
 // <body>の前の兄弟要素
 result = document.body.previousElementSibling; // <head>
 
+/*
+特定の要素を取得 - 1
+*/
+// querySelector
+// 該当の最初の要素だけを返す
+result = document.querySelector('#title');
+// querySelectorはElementインターフェースにもついているので、下記でも可能
+result = document.body.querySelector('#title');
+
+// 該当の要素全て
+// ノードリストインターフェースとして返す
+result = document.querySelectorAll('p');
+
+// closest
+// 祖先ノードor自分から最も近いもの
+result = document.body.closest('html');
+
+// matches
+// 指定されたCSSセレクタの条件にマッチするか
+// Elementインターフェースのみ
+result = document.body.matches('body'); // true
+
+// contains
+// 中に特定のノードを含んでいるか
+// nodeインターフェースのみ
+result = document.body.contains(document.body); // true
+
+/*
+特定の要素を取得 - 2
+querySelectorとquerySelectorAllで代替できる
+*/
+
+// getElement
+// ID属性が一致する要素を1つ取得する
+result = document.getElementById('title');
+
+// getElementsByName
+// name属性が一致する要素をすべて取得する
+result = document.getElementsByName('good');
+
+// getElementsByTagName
+// 指定したタグ名の要素をすべて取得する
+result = document.getElementsByTagName('p'); // HTMLCollectionで返る
+
+// getElementsByClassName
+// 指定したクラス名を持つ要素をすべて取得する
+result = document.getElementsByClassName('apple'); // HTMLCollectionで返る
+
+// ページ内のすべての<a>要素（href属性を持つもの）を取得
+result = document.links; // HTMLCollectionで返る
+
+// ページ内のすべての<form>要素を取得する
+result = document.forms; // HTMLCollectionで返る
+
+// ページ内のすべての<img>要素を取得する
+result = document.images; // HTMLCollectionで返る
+
+// ページ内のすべての<script>要素を取得する
+result = document.scripts; // HTMLCollectionで返る
+
 console.dir(result);
