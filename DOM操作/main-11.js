@@ -112,4 +112,16 @@ result = document.images; // HTMLCollectionで返る
 // ページ内のすべての<script>要素を取得する
 result = document.scripts; // HTMLCollectionで返る
 
-console.dir(result);
+/*
+DOMを変更
+innerHTML / insertAdjacentHTML
+*/
+// getter あまり使わない
+result = document.body.innerHTML; // bodyタグの子孫ノードが全て
+// setter 子孫ノードを全て削除して置き換える
+document.body.innerHTML = '<h1>Hello!</h1><div>I am Tom</div>';
+// 特定の要素を書き換える
+document.querySelector('div').innerHTML = '<h2>I am Minori</h2>';
+// 追加したいとき
+// insertAdjacentHTML('どこに追加するか', '')
+document.querySelector('h2').insertAdjacentHTML('beforeend', '<p>new Minori</p>');
