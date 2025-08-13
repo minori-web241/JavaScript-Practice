@@ -157,4 +157,42 @@ document.body.textContent = '<h1>Hello</h1>';
 // テキストノード
 document.body.innerHTML = '<h1>Hello!</h1><div>I am Tom</div> How Are You';
 
-console.dir(result);
+/*
+DOMを変更
+*/
+document.body.innerHTML = '<div>I am Tom</div>';
+
+// ①単体のノードを作る
+let p = document.createElement('p');
+
+// ②作ったノードを挿入する
+
+p.textContent = 'hello';
+document.querySelector('div').append(p); // append - beforeendに入る
+document.querySelector('div').prepend(p); // prepend - afterbeginに入る
+document.querySelector('div').before(p); // 要素の直前にp要素を挿入
+document.querySelector('div').after(p); // 要素の直後にp要素を挿入
+
+// 下記の方が簡単 XSS対策もされている
+document.querySelector('div').append('This is a text.'); // 要素の直後にp要素を挿入
+// こちらと同じ document.body.insertAdjacentText('beforeend', '<h2>Minori</h2>');
+
+/*
+要素を複製、削除、置き換える
+*/
+
+p = document.createElement('p');
+p.textContent = 'hello';
+document.body.innerHTML = '<div>I am Tom</div>';
+document.querySelector('div').append(p); // こっちが消えちゃう
+document.querySelector('div').prepend(p); // ノードは使い回しができない
+
+// 複製
+let p2 = p.cloneNode(true); // 子孫ノードをコピーしたいときはtrue
+document.querySelector('div').prepend(p2); // falseならhelloがでない
+
+// 削除
+p.remove(); // 子孫要素も全て
+
+// 置き換える
+p2.replaceWith(document.createElement('p'), '<p>banana</p>');
