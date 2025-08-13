@@ -125,3 +125,36 @@ document.querySelector('div').innerHTML = '<h2>I am Minori</h2>';
 // 追加したいとき
 // insertAdjacentHTML('どこに追加するか', '')
 document.querySelector('h2').insertAdjacentHTML('beforeend', '<p>new Minori</p>');
+
+/*
+XSS（Cross-Site Scripting
+*/
+let userInput = '初めての投稿！';
+document.body.innerHTML = userInput;
+userInput = '初めての投稿！<img src="" onerror="alert(`悪質な内容`)">';
+// document.body.innerHTML = userInput;
+
+/*
+XSS対策 textContent
+*/
+
+// getterとして
+document.body.innerHTML = '<h1>Hello!</h1><div>I am Tom</div>';
+// タグを取り除く 要素ノードの場合
+result = document.body.textContent; // Hello!I am Tom
+// テキストノードの場合
+document.body.innerHTML = '<h1>Hello!</h1><div>I am Tom</div> How Are You';
+result = document.body.childNodes[2].textContent; // How Are You
+result = document.body.childNodes; // How Are You
+result = document.textContent; // null
+
+// setterとして
+// 要素ノードの子孫ノードを削除して上書き
+document.body.textContent = 'Hello';
+// タグも文字として認識される = XSSの心配がない
+document.body.textContent = '<h1>Hello</h1>';
+
+// テキストノード
+document.body.innerHTML = '<h1>Hello!</h1><div>I am Tom</div> How Are You';
+
+console.dir(result);
