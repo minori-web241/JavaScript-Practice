@@ -228,3 +228,39 @@ result = document.querySelector('div').childNodes[1].nodeValue; // null
 result = document.querySelector('div').childNodes[2].data; // yo
 // data - setter
 document.querySelector('div').childNodes[2].data = 'cake'; // cake
+
+/*
+属性
+*/
+// idをとる
+result = document.body.id;
+// 代入
+document.body.id = 'foo';
+
+// type
+document.body.innerHTML = '<input type="text"/>';
+result = document.querySelector('input').type;
+document.querySelector('input').type = 'checkbox';
+
+// class
+result = document.body.className;
+result = document.body.classList;
+
+// 一覧
+result = document.body.attributes;
+document.body.id = '17';
+document.body.attributes.id.value = '26';
+
+// getAttribute - 取得
+result = document.body.getAttribute('id'); // 26
+// setAttribute - 追加・更新
+document.body.setAttribute('newattr', 'newattr'); // 26
+// hasAttribute - 存在チェック
+result = document.body.hasAttribute('foo'); // false
+// removeAttribute - 削除
+document.body.removeAttribute('type');
+
+// dataset - data-を除く
+result = document.body.dataset;
+
+console.dir(result);
