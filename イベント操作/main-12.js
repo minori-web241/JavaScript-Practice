@@ -61,3 +61,90 @@ button.addEventListener(
     console.log(this, a, b, event); // <button>
   }.bind({}, 'a', 'b')
 );
+
+/*
+バブリング
+*/
+// input イベントが発生したときに、バブリング（親要素へ伝わる）
+const input = document.querySelector('input');
+input.addEventListener('input', () => {
+  console.log('input from input');
+});
+document.body.addEventListener('input', () => {
+  console.log('input from body');
+});
+document.addEventListener('input', () => {
+  console.log('input from document');
+});
+window.addEventListener('input', () => {
+  console.log('input from window');
+});
+
+// eventオブジェクトにはtargetプロパティがある
+// eventの起点がわかる
+window.addEventListener('input', (event) => {
+  console.log('input from window', event); // target:body
+});
+
+//
+input.addEventListener('focus', (event) => {
+  console.log('focus from input', event.bubbles); // false
+});
+
+/*
+キャプチャリング
+*/
+// バブリング
+const input2 = document.querySelector('input');
+input2.addEventListener('input', () => {
+  console.log('input from input');
+});
+document.body.addEventListener('input', () => {
+  console.log('input from body');
+});
+document.addEventListener('input', () => {
+  console.log('input from document');
+});
+window.addEventListener('input', () => {
+  console.log('input from window');
+});
+
+// キャプチャリング
+// デフォルトでは無効 有効にするには { capture: true }を設定する
+// removeしたい時も、第三引数に同じように { capture: true }を設定する
+input2.addEventListener(
+  'input',
+  () => {
+    console.log('input from input in the capture');
+  },
+  { capture: true }
+);
+document.body.addEventListener(
+  'input',
+  () => {
+    console.log('input from body in the capture');
+  },
+  { capture: true }
+);
+document.addEventListener(
+  'input',
+  () => {
+    console.log('input from document in the capture');
+  },
+  { capture: true }
+);
+window.addEventListener(
+  'input',
+  () => {
+    console.log('input from window in the capture');
+  },
+  { capture: true }
+);
+
+/*
+キャプチャリングやバブリングを止める
+*/
+// 親要素への伝播だけを止める 同じ要素の他のリスナーは実行される
+event.stopPropagation();
+// 	親要素への伝播＋同じ要素に登録されている後続のリスナーも実行されない
+event.stopImmediatePropagation();
