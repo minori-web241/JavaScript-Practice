@@ -201,3 +201,15 @@ document.addEventListener('my-event', (e) => {
 });
 // 発火
 document.dispatchEvent(customEvent);
+
+/*
+defer属性
+*/
+// DOMの構築を進めながら、jsファイルのダウンロードをする
+// jsの実行はDOM構築の完了を待つ
+
+/*
+async
+*/
+// ダウンロードが完了したらDOM構築の途中でも即時実行
+// 使用場面：広告タグや分析ツールなど、ページ表示とは独立して動かすコード
