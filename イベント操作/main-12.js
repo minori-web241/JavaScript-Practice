@@ -148,3 +148,13 @@ window.addEventListener(
 event.stopPropagation();
 // 	親要素への伝播＋同じ要素に登録されている後続のリスナーも実行されない
 event.stopImmediatePropagation();
+
+/*
+preventDefault - ブラウザのデフォルトの挙動を止める
+*/
+const aEL = document.querySelector('a');
+aEL.addEventListener('click', (event) => {
+  // cancelable - キャンセルの可否
+  console.log(event.cancelable); // true
+  event.preventDefault();
+});
