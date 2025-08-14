@@ -367,3 +367,49 @@ result = document.documentElement.scrollHeight;
 // スクロールバーの分も含みたいとき あまり出番はない
 window.innerHeight;
 window.innerWidth;
+
+/*
+画面のスクロールを操作
+*/
+// html要素が画面からどれくらいスクロールされたか
+// documentElementに指定するのは古いブラウザで効かない可能性がある
+result = document.documentElement.scrollTop;
+result = document.documentElement.scrollLeft;
+
+// windowインターフェースを利用するものを使うのが無難！
+
+// pageYOffset - 代入不可
+result = window.pageYOffset;
+
+// scrollTo(x,y); - 代入可能
+window.scrollTo(0, 100);
+
+// scrollBy(x,y); - 現状からのスクロール量 = 相対指定が可能
+window.scrollBy(0, 150);
+
+// オブジェクトで設定も可能
+// behaviorはscrollByでも使用可能
+scrollTo({ top: 300, left: 0, behavior: 'smooth' });
+
+// 指定の要素までスクロールしたい
+// 要素ノード
+// 指定した要素が画面の一番上になる
+document.querySelector('p').scrollIntoView(); // デフォルトTrue
+// 指定した要素が画面の一番下になる
+document.querySelector('p').scrollIntoView(false);
+
+// オブジェクトをとることもできる
+document.querySelector('p').scrollIntoView({
+  behavior: 'smooth',
+  // block: 'start', // = true
+  // block: 'end', // = false
+  // block: 'center', // 要素が真ん中に
+  // block: 'nearest', // 画面内にあれば何もない 画面外にあれば、上or下の近い方に移動
+  inline: 'nearest',
+});
+
+// hiddenの挙動
+document.documentElement.style.overflow = 'hidden';
+// bodyにも指定可能
+document.body.style.overflow = 'hidden';
+document.body.style.overflow = ''; // 空文字で戻せる
