@@ -145,9 +145,9 @@ window.addEventListener(
 キャプチャリングやバブリングを止める
 */
 // 親要素への伝播だけを止める 同じ要素の他のリスナーは実行される
-event.stopPropagation();
+// event.stopPropagation();
 // 	親要素への伝播＋同じ要素に登録されている後続のリスナーも実行されない
-event.stopImmediatePropagation();
+// event.stopImmediatePropagation();
 
 /*
 preventDefault - ブラウザのデフォルトの挙動を止める
@@ -158,3 +158,18 @@ aEL.addEventListener('click', (event) => {
   console.log(event.cancelable); // true
   event.preventDefault();
 });
+
+/*
+passive
+画面のスクロール
+*/
+// このイベントリスナーは preventDefault() を絶対に呼ばない」とブラウザに約束するための設定
+// preventDefault() はしないよ」と宣言 → ブラウザが待たずに即スクロール処理できる
+document.documentElement.style.height = '1500px';
+window.addEventListener(
+  'wheel',
+  (event) => {
+    console.log(event);
+  },
+  { passive: true }
+);
