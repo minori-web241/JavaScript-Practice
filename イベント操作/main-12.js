@@ -173,3 +173,31 @@ window.addEventListener(
   },
   { passive: true }
 );
+
+/*
+独自のイベント
+*/
+// Event
+// バブリングはしない = bubblesがfalseになっている → trueにすればok
+document.addEventListener('my-event', (event) => {
+  console.log(event);
+});
+// イベントを作成
+const newEvent = new Event('my-event', {
+  bubbles: true, // デフォルトはfalse
+  cancelable: true, // preventDefaultできるようにする
+});
+// イベントを発火
+document.dispatchEvent(newEvent);
+
+// CustomEvent - カスタムデータを渡す場合
+const customEvent = new CustomEvent('my-event', {
+  detail: { userId: 123, status: 'ok' }, // 任意のデータ
+  bubbles: true,
+});
+// リスナーで detail を取得
+document.addEventListener('my-event', (e) => {
+  console.log(e.detail); // { userId: 123, status: 'ok' }
+});
+// 発火
+document.dispatchEvent(customEvent);
