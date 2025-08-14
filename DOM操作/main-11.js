@@ -413,3 +413,23 @@ document.documentElement.style.overflow = 'hidden';
 // bodyにも指定可能
 document.body.style.overflow = 'hidden';
 document.body.style.overflow = ''; // 空文字で戻せる
+
+/*
+static(静的な): querySelectorAll , getBoundingClientRect
+live: それ以外
+*/
+
+// getBoundingClientRectの例
+const temRect = document.querySelector('div').getBoundingClientRect();
+temRect.width; // 350
+// 代入 DOMは更新されている
+document.querySelector('div').style.width = '500px';
+temRect.width; // 350のまま
+
+// 再取得すると更新される
+document.querySelector('div').getBoundingClientRect();
+temRect.width; // 500
+
+// つまり、DOMはちゃんと更新されているけど、getBoundingClientRect()で取得したオブジェクトは更新されないスナップショットのようなもの
+
+// querySelectorAllも同じようなイメージ
