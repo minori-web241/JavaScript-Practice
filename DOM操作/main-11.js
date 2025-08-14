@@ -303,4 +303,67 @@ result = document.querySelector('p').style.cssText; // style属性のテキス�
 // getComputedStyle - 要素に適応されている全てのスタイルを見る
 // 変更はできない
 result = getComputedStyle(document.querySelector('p'));
-// console.dir(result);
+
+/*
+要素の位置を取得する
+*/
+
+// getBoundingClientRectオブジェクト
+// cssのtopやleftとは基点が違うので注意append
+// 表示されている領域からの値 = スクロールで変動する！
+document.body.innerHTML = '<div class="box"></div><p style="margin: 1000px 0">this is p</p>';
+// DOMRect 代入は不可
+result = document.querySelector('div').getBoundingClientRect();
+
+// getBoundingClientRect - 位置を変更
+const messageEl = document.createElement('p');
+messageEl.textContent = 'message!';
+document.body.append(messageEl);
+messageEl.style.position = 'absolute';
+messageEl.style.top = `${document.querySelector('div').getBoundingClientRect().bottom}px`;
+messageEl.style.left = `${document.querySelector('div').getBoundingClientRect().left}px`;
+
+// offsetTop
+// スクロール量は含まれない
+document.querySelector('div').offsetTop; // 200
+document.querySelector('div').offsetLeft; // 208
+document.querySelector('div').offsetWidth; // 350
+
+/*
+座標から要素を取得する
+*/
+result = document.elementFromPoint(300, 300); // div.box
+// 画面外はnull スクロールしてもnull
+result = document.elementFromPoint(300, 1500); // null
+
+/*
+詳細な要素の取得
+*/
+// borderを含まない内側 paddingは含む
+// clientWidthはスクロールバーを含めない値
+result = document.elementFromPoint(300, 300);
+result = document.elementFromPoint(300, 300);
+result = document.querySelector('div').clientWidth;
+// borderの幅 rightとbottomはない
+result = document.querySelector('div').clientleft;
+// スクロールした分の高さ
+// scrollHeight > clientHeight
+result = document.querySelector('div').scrollHeight;
+// スクロールした量の値を入れられる - スクロールされた状態にできる
+result = document.querySelector('div').scrollTop;
+result = document.querySelector('div').scrollLeft;
+
+/*
+画面の幅
+*/
+document.documentElement.style.border = '25px solid black';
+document.body.border = '25px solid orange';
+result = document.documentElement.getBoundingClientRect().height; // 2424
+
+// clientWidth , scrollHeight - documentElementに使ったときのみ、border関係なく画面内の高さを返す
+result = document.documentElement.clientWidth;
+result = document.documentElement.scrollHeight;
+
+// スクロールバーの分も含みたいとき あまり出番はない
+window.innerHeight;
+window.innerWidth;
