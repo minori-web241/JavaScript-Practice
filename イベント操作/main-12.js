@@ -32,3 +32,32 @@ button.removeEventListener('click', clickListener);
 button.removeEventListener('click', clickListener, {
   once: true,
 });
+
+/*
+event
+*/
+// イベントオブジェクトを返す - イベントの種類によって参考するインターフェースが変わる
+// eventは、ブラウザが「クリックされた瞬間」に自動で作って渡してくれる特別なオブジェクト
+// その中には「イベントの種類に応じた情報」が全部入っている
+button.addEventListener('click', (event) => {
+  console.log(event);
+});
+
+/*
+this
+*/
+// thisはイベントハンドラが登録されている要素を指し示す
+button.addEventListener('click', function (event) {
+  console.log(this); // <button>
+});
+
+button.onclick = function (event) {
+  console.log(this);
+};
+
+button.addEventListener(
+  'click',
+  function (a, b, event) {
+    console.log(this, a, b, event); // <button>
+  }.bind({}, 'a', 'b')
+);
