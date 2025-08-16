@@ -282,3 +282,47 @@ let promise4 = promise3.catch((error) => {
 });
 
 console.log(promise);
+
+/*
+WebAPI - promiseを返すもの
+*/
+navigator.mediaDevices
+  .getUserMedia({ video: true })
+  .then((value) => {
+    console.log(value);
+  })
+  .catch((error) => {
+    console.log('error:', error.message);
+  })
+  .then(() => {
+    return navigator.Clipboard.readText();
+  })
+  .then((text) => {
+    console.log(text);
+  })
+  .catch((error) => {
+    console.log('error:', error.message);
+  });
+
+/*
+WebAPIをPromise化する - promiseを返さない（古い）もの
+*/
+let promisifiedSetTimeout = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
+promisifiedSetTimeout(1000).then(() => {
+  console.log('promisifiedSetTimeout1');
+  return promisifiedSetTimeout(1000);
+});
+promisifiedSetTimeout(1000).then(() => {
+  console.log('promisifiedSetTimeout2');
+  return promisifiedSetTimeout(1000);
+});
+promisifiedSetTimeout(1000).then(() => {
+  console.log('promisifiedSetTimeout3');
+  return promisifiedSetTimeout(1000);
+});
