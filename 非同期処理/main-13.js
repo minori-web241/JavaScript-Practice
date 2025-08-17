@@ -1,7 +1,6 @@
 /*
 非同期
 */
-
 // コールバック関数での非同期処理 - setTimeoutの例
 setTimeout(() => {
   console.log('two');
@@ -151,7 +150,7 @@ promise.finally((value) => {
 promise - promiseをresolveしたとき = 処理が連動する
 */
 // ②外側の処理が実行される
-promise = new Promise((resolve) => {
+promise = new Promise((resolve, reject) => {
   // ①内側のpromiseの処理が先に実行されてから
   let tpmPromise = new Promise((resolve2) => {
     setTimeout(() => {
@@ -160,7 +159,7 @@ promise = new Promise((resolve) => {
   });
   resolve(tpmPromise);
   // 内部的に
-  // tpmPromise.then.(resolve,reject)
+  // tpmPromise.then(resolve,reject)
   // resolve() or reject()
 });
 
@@ -174,6 +173,18 @@ promise.then(
 );
 promise.finally((value) => {
   console.log('finally', value);
+});
+
+/*
+thenableObj
+*/
+promise = new Promise((resolve, reject) => {
+  let thenableObj = {
+    then(resolve2, reject2) {},
+  };
+  resolve(thenablObj);
+  // 内部的に
+  // thenableObj.then(resolve,reject)
 });
 
 /*
@@ -259,29 +270,86 @@ let promise2 = promise.then((value) => {
   console.log(value);
   return 2;
 });
+
 /*
   promise2: {
     [[promiseState]]:'pending'
-    [[promiseState]]:[newFunc2]
-  }
-    let newFunc2 = (value) =>{
+    [[PromiseFulfillReactions]]:[newFunc2Fulfill]
+    [[PromiseRejectReactions]]:[newFunc2Reject]
+
+    // 内部的に変形した関数を入れている
+    let newFunc2Fulfill = (value) =>{
     try {
       let result = func2(value);
       resolve3(result)
     } catch(error){
       reject3(error)
     }
-  }*/
-let promise3 = promise2.then((value) => {
+    let newFunc2Reject = (value) => {
+      reject3(value)
+    }
+    let newFunc3Reject = (value) => {
+      resolve4(value)
+    }
+  }
+*/
+let func2 = (value) => {
   console.log(value);
   throw new Error(3);
-});
+};
+
+let promise3 = promise2.then(func2);
 let promise4 = promise3.catch((error) => {
   console.log(error.message);
   throw new Error(4);
 });
+let finallyFunc = () => {};
+let promise5 = promise4.finally();
+let promise6 = promise5.then(() => {
+  throw new Error('error');
+});
+let promise7 = promise6.then(() => {
+  promise8.catch((error) => {
+    console.log(error.message);
+  });
+});
+/*
+  promise4: {
+    [[promiseState]]:'pending'
+    [[PromiseFulfillReactions]]:[finallyFuncFulfill]
+    [[PromiseRejectReactions]]:[finallyFuncReject]
 
-console.log(promise);
+    // 内部的に変形した関数を入れている
+    let finallyFuncFulfill = (value) =>{
+      try {
+        let result = finallyFunc();
+        new Promise((resolve) => resolve(result))
+        .then(() => {
+          resolve5(value)
+        })
+        .catch((error) => {
+          reject5(error)
+        })
+      } catch(error){
+        reject5(error)
+      }
+    let finallyFuncReject = (value) => {
+      try {
+        let result = finallyFunc();
+        new Promise((resolve) => resolve(result))
+        .then(() => {
+          reject5(value)
+        })
+        .catch((newError) => {
+          reject5(newError)
+        })
+      } catch(newError){
+        reject5(newError)
+      }
+    }
+
+  }
+*/
 
 /*
 WebAPI - promiseを返すもの
