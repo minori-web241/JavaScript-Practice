@@ -394,3 +394,67 @@ promisifiedSetTimeout(1000).then(() => {
   console.log('promisifiedSetTimeout3');
   return promisifiedSetTimeout(1000);
 });
+
+/*
+PromiseのStaticメソッド - all
+全部成功しないとダメなケース（複数APIから同時にデータ取得 → 全部揃ってからUIに出すなど）に使う
+*/
+promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject(1);
+  }, 2000);
+});
+promise2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(2);
+  }, 1000);
+});
+promise3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(3);
+  }, 500);
+});
+
+// 返り値でpromiseを返す
+// 配列の中のpromiseが実行された後に、allメソッドのpromiseが実行される
+Promise.all([promise, promise2, promise3])
+  .then((value) => {
+    // 配列の順番通りにプロパティが入る
+    console.log('Promise.all then :', value);
+  })
+  // 1つでもrejectすると全体がrejectになる
+  .catch((error) => {
+    console.log('promise.all catch:', error);
+  });
+
+/*
+PromiseのStaticメソッド - allSettled
+全部がsettle（成功 or 失敗）するまで待つ
+失敗したものも含めて結果を確認できる挙動
+*/
+Promise.allSettled([promise, promise2, promise3]).then((results) => {
+  console.log('Promise.allSettled results:', results);
+});
+
+/*
+PromiseのStaticメソッド - race
+一番最初に settled（成功 or 失敗）したものの結果だけを返す
+「タイムアウト処理」でよく使う
+*/
+// Promise.race then: 3
+
+/*
+PromiseのStaticメソッド - any
+複数のPromiseのうち、最初にfulfilledになったものを返す
+*/
+
+/*
+PromiseのStaticメソッド - resolve , reject
+*/
+// resolve
+Promise.resolve('value');
+new Promise((resolve) => resolve('value'));
+
+// reject
+Promise.reject(new Error('error'));
+new Promise((resolve, reject) => resolve(new Error('error')));
