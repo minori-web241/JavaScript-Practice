@@ -17,3 +17,19 @@ fetch('https://jsonplaceholder.typicode.com/posts', {
   // body: 'hello',
   body: new ArrayBuffer(16),
 });
+
+/*
+JSON
+*/
+let json = 'null';
+json = '"hello"'; // 文字列はダブルクォートで囲う
+json = '[null, true, 32, ["hello", -3]]';
+json = '{"name": "Tom", "age": 29}';
+
+// JSON形式の文字列 → JavaScriptのオブジェクトに変換
+let result = JSON.parse(json);
+console.log(result);
+
+// JavaScriptのオブジェクト → JSON形式の文字列に変換
+result = JSON.stringify(result);
+console.log(result);
