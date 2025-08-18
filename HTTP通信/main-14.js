@@ -33,3 +33,30 @@ console.log(result);
 // JavaScriptのオブジェクト → JSON形式の文字列に変換
 result = JSON.stringify(result);
 console.log(result);
+
+/*
+Blob
+*/
+let input = document.querySelector('input');
+input.addEventListener('change', () => {
+  let file = input.files[0];
+  fetch('https://jsonplaceholder.typicode.com/posts', {
+    method: 'POST', // データをサーバに送信する
+    body: file,
+  });
+  let objectURL = URL.createObjectURL(file);
+  let img = document.querySelector('img');
+  img.src = objectURL;
+  img.addEventListener('load', () => {
+    // Blobをガベージコレクト
+    URL.revokeObjectURL(objectURL);
+  });
+  console.log(objectURL);
+});
+
+// Blobを作成
+new Blob([new ArrayBuffer(), 'hello', new Blob()], { type: 'application/octet-stream' });
+// バイナリ → 文字列に変換
+new TextDecoder().decode(new ArrayBuffer(16));
+// 文字列 → バイナリに変換
+result = new TextEncoder().encode('hello');
