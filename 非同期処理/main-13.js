@@ -458,3 +458,111 @@ new Promise((resolve) => resolve('value'));
 // reject
 Promise.reject(new Error('error'));
 new Promise((resolve, reject) => resolve(new Error('error')));
+
+/*
+async / await
+*/
+let asyncFunc = async () => {
+  /*
+asyncの内部的な処理(同期的)
+return new Promise((resolve, reject) => {
+  try {
+  let result = func()
+  resolve(result)
+  } catch (error) {
+  reject(error)
+  }
+})
+*/
+  //  例）
+  // return 'hello';
+  // throw new Error('error');
+  // 非同期的に取得、取得できたらresolveする
+  // let result = await navigator.mediaDevices.getUserMedia({ video: true });
+  // console.log(result);
+  // await promisifiedSetTimeout(2000);
+  // console.log('2000ms');
+  // let position = await promisifiedGetCurrentPosition();
+  // console.log(position);
+
+  // 例）
+  console.log(1);
+  let result = await 1;
+  console.log('await1', result);
+  try {
+    result = await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject(new Error(2));
+      }, 1000);
+    });
+  } catch (error) {
+    console.log('await2', error.message);
+  }
+  return 3;
+};
+let result = asyncFunc();
+result.then((value) => {
+  console.log('async func', value);
+});
+console.log(2);
+
+/*
+for await of
+*/
+let promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(1);
+    // reject(1);
+  }, 2000);
+});
+let promise2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(2);
+    // reject(2);
+  }, 1000);
+});
+let promise3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(3);
+    // reject(3);
+  }, 500);
+});
+
+// promise.allとの違い
+// 直列処理、1つずつ順番に結果を処理できる、合計時間がかかる
+let promises = [promise, promise2, promise3];
+(async () => {
+  for (const promise of promises) {
+    let result = await promise;
+    console.log(result);
+  }
+})();
+
+// for await of文に変換すると...記述を省略できる
+// 機能①：value（promise）に対してawaitを使っている = resolveされるまで待ってから取得する
+promises = [promise, promise2, promise3];
+(async () => {
+  for await (const result of promises) {
+    console.log(result);
+  }
+})();
+
+// 機能②：symbol.asyncIteratorのメソッドを優先的に使う
+let iterator = promises[Symbol.iterator]();
+promises[Symbol.asyncIterator] = () => {
+  return {
+    count: 0,
+    // nextメソッドの返り値にのみawaitする
+    next() {
+      this.count += 1;
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            value: this.count,
+            done: this.count > 3,
+          });
+        }, 1000);
+      });
+    },
+  };
+};
