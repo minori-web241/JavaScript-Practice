@@ -40,9 +40,35 @@ Blob
 let input = document.querySelector('input');
 input.addEventListener('change', () => {
   let file = input.files[0];
+  /*
+FormData
+*/
+  let formData = new FormData();
+  formData.append('user', 'minori');
+  formData.append('password', 'fjfjia');
+  formData.append('blob', new Blob(['hello']), 'binary');
+  formData.append('profile', file, 'picture.png');
+
+  // 指定したキーが存在するかどうかを true/false で返す
+  result = formData.has('profile');
+  // 指定したキーに対応する最初の値を返す（Fileや文字列）
+  result = formData.get('profile');
+  // 指定したキーとその値をすべて削除する
+  result = formData.delete('profile');
+  // 指定したキーに対応するすべての値を配列で返す
+  result = formData.getAll('profile');
+  result = formData;
+  console.log(formData);
+
+  /*
+  <form> 要素から直接 FormData を生成
+  */
+  let form = document.querySelector('form');
+  formData = new FormData(form);
+
   fetch('https://jsonplaceholder.typicode.com/posts', {
     method: 'POST', // データをサーバに送信する
-    body: file,
+    body: formData,
   });
   let objectURL = URL.createObjectURL(file);
   let img = document.querySelector('img');
