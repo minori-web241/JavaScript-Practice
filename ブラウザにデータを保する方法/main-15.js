@@ -153,3 +153,102 @@ document.cookie.split('; ').forEach((cookie) => {
     result = decodeURIComponent(result);
   }
 });
+
+/*
+indexedDB - 作成/取得/削除/エラー処理
+*/
+indexedDB.deleteDatabase('shop');
+// openメソッドはDBを使う準備を非同期的に始める - indexedDBはpromiseに対応していない
+let openRequest = indexedDB.open('shop');
+// upgradeneeded - 新しくDBを作成するときに、successやerrorの直前に発生するイベント
+openRequest.addEventListener('upgradeneeded', () => {
+  console.log('upgradeneeded');
+  let db = openRequest.result;
+  let books = db.createObjectStore('books', {
+    autoIncrement: true, // キーを自動で採番してくれる
+    // keyPath: 'id', // データ内の id プロパティをキーにする
+  });
+  /*
+  DBに保存する方法
+  */
+  // オブジェクトストア：キーに対して複数のvalueを持つ
+  db.createObjectStore('books');
+  db.createObjectStore('games');
+  // オブジェクトストアを削除
+  db.deleteObjectStore('games');
+  // オブジェクトストアが存在するかを確認
+  db.objectStoreNames.contains('books');
+  console.log(db);
+  console.log(db);
+});
+// DBの準備が完了したら呼び出される
+openRequest.addEventListener('success', () => {
+  console.log('success');
+  let db = openRequest.result;
+  // db.transaction('books', 'readonly'); // デフォルト
+  // データの変更方法
+  let transaction = db.transaction('books', 'readwrite');
+  let books = transaction.objectStore('books');
+  // put - データを追加 - 非同期
+  books.put('JavaScript Guide', 0); // keyとValue
+  books.put('Python Guide', 1); // keyとValue
+
+  request = books.get(1);
+
+  /*
+  キーの範囲を指定する
+  引数を指定しなければ、すべてのデータを取得する
+  */
+  // request = books.getAll(IDBKeyRange.bound(1, 4));
+  // request = books.getAll(IDBKeyRange.lowerBound(1, 4));
+  // request = books.getAll(IDBKeyRange.upperBound(1, 4));
+  // request = books.getAllKeys(IDBKeyRange.upperBound(4, true));
+  // request = books.getKey(IDBKeyRange.upperBound(4, true));
+  // request = books.count(IDBKeyRange.upperBound(4, true));
+  // request = books.count(1);
+
+  // add - 追加しかできない
+  let request = books.add('JavaScript Guide', 0);
+  request.addEventListener('error', (event) => {
+    console.log('error from request');
+    console.log(event.target.error, message);
+    event.preventDefault();
+  });
+  transaction.addEventListener('error', () => {
+    console.log('error from transaction');
+  });
+
+  // get - データを取得 - 非同期
+  request = books.get(0); // キーを指定
+  request.addEventListener('success', () => {
+    result = request.result;
+    console.log(result);
+  });
+  // books.delete(0); // 指定したキーのデータだけ削除
+  // books.clear(0); // オブジェクトストア内の全データを削除
+  console.log(db);
+
+  // 一連の流れがすべて成功したとき
+  transaction.addEventListener('complete', () => {
+    console.log('complete');
+    books.get(0); // 使えない 新しいtransaction{}を作成すればOK
+  });
+
+  // 明示的にtransactionを中止する
+  transaction.abort();
+  throw ' error';
+  // abortやthrowがあったとき
+  transaction.addEventListener('abort', () => {
+    console.log('abort');
+    books.get(0); // 使えない 新しいtransaction{}を作成すればOK
+  });
+});
+// エラー処理
+openRequest.addEventListener('error', () => {
+  console.log('error');
+  let error = openRequest.error;
+  console.log(error.message);
+});
+
+// DBを削除
+// indexedDB.deleteDatabase('shop');
