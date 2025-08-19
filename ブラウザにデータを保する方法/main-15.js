@@ -113,3 +113,14 @@ Cookie - httponly属性
 */
 // http通信でのみ使用可能 JSでは使用できなくなる
 // httpbin.org/response-headers?Set-Cookie=name=John; httponly
+
+/*
+CSRF(XSRF) - samesite属性
+*/
+// Strict - 同じサイトからのリクエストにしかCookieを送らない（UX的には不便になることも）
+document.cookie = 'name=John; samesite=Strict';
+// Lax - 安全なナビゲーションなら送る（GETリクエストでのリンククリックやブックマークアクセスではCookieが送られる）
+document.cookie = 'name=John; samesite=Lax';
+// どんなクロスサイトリクエストでもCookieを送る、必ずSecureとセット
+document.cookie = 'name=John; samesite=None: Secure';
+document.cookie = 'name=John;'; // デフォルトもLax
