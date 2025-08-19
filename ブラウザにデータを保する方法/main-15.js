@@ -124,3 +124,14 @@ document.cookie = 'name=John; samesite=Lax';
 // どんなクロスサイトリクエストでもCookieを送る、必ずSecureとセット
 document.cookie = 'name=John; samesite=None: Secure';
 document.cookie = 'name=John;'; // デフォルトもLax
+
+/*
+fetchでCookieを送る方法
+*/
+// omit - Cookie を一切送らない、レスポンスのSet-Cookieも無視（認証不要のAPIを叩くとき、トラッキング防止）
+fetch('url', { credentials: 'omit' });
+// 同一オリジンの場合だけCookieを送る
+fetch('url', { credentials: 'same-origin' }); // デフォルト
+// オリジンが違ってもCookieを送る
+// サーバー側も「Access-Control-Allow-Credentials: true」を返さないとブロックされる
+fetch('url', { credentials: 'include' }); // デフォルト
