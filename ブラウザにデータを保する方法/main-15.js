@@ -135,3 +135,21 @@ fetch('url', { credentials: 'same-origin' }); // デフォルト
 // オリジンが違ってもCookieを送る
 // サーバー側も「Access-Control-Allow-Credentials: true」を返さないとブロックされる
 fetch('url', { credentials: 'include' }); // デフォルト
+
+/*
+encodeURIComponent
+*/
+document.cookie = 'name=Jo;hn';
+// 値をエンコード
+result = encodeURIComponent('Jo;hn'); // Jo%3Bh
+// 逆変換
+result = decodeURIComponent(result); // Jo;hn
+
+// Cookieに安全にセット
+document.cookie = `name=${encodeURIComponent('Jo;hn')}`; // name=Jo%3Bhn
+document.cookie.split('; ').forEach((cookie) => {
+  let [key, value] = cookie.split('=');
+  if (key === 'name') {
+    result = decodeURIComponent(result);
+  }
+});
