@@ -1,0 +1,21 @@
+{
+  "name": "js-practice",
+  "version": "1.0.0",
+  "description": "Udemy 講座「超 JavaScript 完全ガイド 2025」（講師：よしぴー さん）をベースに、JavaScript の基本から応用までを体系的に学習したリポジトリです。 本リポジトリは学習中に書いたコードやメモが中心で、具体的な成果物ではありません。",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minori-web241/JavaScript-Practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minori-web241/JavaScript-Practice/issues"
+  },
+  "homepage": "https://github.com/minori-web241/JavaScript-Practice#readme"
+}
