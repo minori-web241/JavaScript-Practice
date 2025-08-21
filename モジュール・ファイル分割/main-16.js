@@ -81,3 +81,16 @@ console.log(C);
 モジュール自身に関するメタ情報が入っているオブジェクト
 */
 console.log(import.meta);
+
+/*
+動的import
+*/
+if (true) {
+  // 代入できる
+  let fileName = './C.js';
+  // import()はPromiseを返す
+  // モジュールのロード・評価が終わるまで処理を停止
+  const result = await import(fileName);
+  // 処理が完了したらresultに代入される
+  console.log(result);
+}
