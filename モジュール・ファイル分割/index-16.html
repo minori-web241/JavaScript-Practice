@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- モジュール名のエイリアス -->
+    <script type="importmap">
+      {
+        "imports": {
+          "A": "./A.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- moduleを使用するには、typeでmoduleを指定 -->
+    <!-- デフォルトでdeferになる -->
+    <script src="main-16.js" type="module"></script>
+    <!-- 直接scriptで書いてもdeferは適応される -->
+    <!-- <script type="module">
+      console.log(document.body);
+    </script>
+    <script nomodule></script> -->
+  </body>
+</html>
