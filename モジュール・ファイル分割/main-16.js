@@ -94,3 +94,27 @@ if (true) {
   // 処理が完了したらresultに代入される
   console.log(result);
 }
+
+/*
+import属性 - with
+*/
+import data from './data.json' with { type : 'json'};
+import data2 from './data.json' with { type : 'json'};
+import data3 from './data.json' with { type : 'json'};
+export { default } from './data.json' with { type : 'json'};
+// キャッシュされたオブジェクトを変更しているのでdata2やdata3にも反映される
+data.id = 'hello'
+console.log(data === data2); // true
+console.log(data2 === data3); // true
+// 動的 import
+let json = 'json'
+const data4 = await import('./data.json',{
+  with:{
+    type: json
+  }
+})
+console.log(data4)
+
+// cssもimport可能
+import style from './style.css' with { type : 'css'};
+console.log(style);
